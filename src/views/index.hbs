@@ -1,0 +1,106 @@
+<div class="container-fluid">
+	<div class="row d-flex justify-content-center">
+ 
+    <!--Seccion izquierda contactos -->
+    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 inf">
+      <!-- perfil -->
+      <div class="row">
+        
+        <div class="col-12 perfil d-flex align-items-center">
+          <img src="img/avatar/{{avatar}}" alt="Profile picture">
+          <p class="mt-3">{{username}}</p>
+
+          <!-- Dropdown -->
+          <div class="btn-group dropleft d-flex align-self-start dropdown">
+            <a type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" align="right" style=""><i class="fas fa-ellipsis-v"></i></a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#" >Perfil</a>
+              <a class="dropdown-item" href="#">Archivados</a>
+              {{!-- {{#if user.role == admi}} --}}
+              <a class="dropdown-item" href="signup">Agregar usuario</a>
+              {{!-- {{/if}} --}}
+              <a class="dropdown-item" href="/logout">Salir</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- fin perfil -->
+
+      <!-- Contactos -->
+      <div class="row perfiles" id="perfiles" style="overflow-x: hidden;/*max-height: 90vh;*/s">
+        <div class="inner-addon right-addon w-100 mr-3 ml-3">
+          <input  type="text" class="form-control mt-2 mb-2 pr-5" placeholder="Buscar..." style="height: 50px; border-radius: 12px;" />
+          <i class="fas fa-search"></i>
+        </div>
+        {{#each dataUsers}}
+          <div class="col-12 contact" id="{{username}}">
+            <div class="status" id="{{connected}}"></div>
+            <img src="img/avatar/{{avatar}}" alt="Profile picture">
+            <div class="" style="width: 65%; padding-top: 12px; display: inline-block">
+              <b>{{username}}</b>
+              <p style="margin-top: 0;">😅😅😅</p>
+            </div>
+            <small id="time">{{moment date}}</small>
+          </div>
+        {{/each}}
+          {{!-- <div class="col-12 contact" id="pepe">
+            <div class="status" id="offline"></div>
+            <img src="img/avatar/user5.jpg" alt="Profile picture">
+            <div class="" style="width: 65%; padding-top: 12px; display: inline-block">
+              <b>pepe</b>
+              <p style="margin-top: 0;">Hola, como sigues con los proyectos </p>
+            </div>
+            <small id="time">7:20 pm</small>
+          </div> --}}
+      </div>
+      <!-- fin contactos -->
+    </div>
+     <!-- fin seccion izquierda -> contactos -->
+
+     <!-- seccion derecha-> chat -->
+    <div class="col-lg-7 col-md-0 col-sm-0 col-xs-0 chat" id="chat">
+      
+      <div class="d-flex flex-column box-chat" style="height: 100vh;">
+        <!-- encabezado -->
+        <div class="row d-flex align-items-center cabecera">
+          <i class="fas fa-arrow-left ml-3" id="back" style="display: none; cursor: pointer;"></i>
+          <div id="foto_perfil"><img src="img/unknowUser.png" style="background: lightgrey;"></div>
+          <div class="col-8 state"> 
+            <p class="mb-0" id="usernameReceiver"></p>
+          </div>
+        </div>
+
+        <!-- historial chat -->
+        <div class="row historial">
+          <div class="content" style=" opacity: 0.8; padding-left: 30px; padding-right: 30px; font-size: 12px;">
+            <img src="img/notMsg.png" alt="Not messages" style="width: 70%; margin: 25px auto; display: block">
+            <h1 style="color: white; margin-top: 10px; text-align: center">Start chat</h1>
+          </div>
+        </div>
+
+        <!-- Messages container -->
+        <div class="d-flex justify-content-center align-items-center row" id="chat-footer">
+          <div class="mdl-card__supporting-text mdl-color-text--light-blue-50 col-12">
+            {{!-- <form id="message-form"> --}}
+              <div class="input-group d-flex justify-self-center">
+                <input id="mensaje" placeholder="Escribe un mensaje..." autocomplete="off">
+                <button id="send" type="submit"><img src="send.png" style="width: 33px; height: 35px; padding: 0 6px 6px 0;">
+                </button>
+              </div>
+            {{!-- </form> --}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- fin seccion derecha-> chat -->
+  </div>
+</div>
+
+<script>
+  var user = `{{username}}`;
+</script>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/chat.js"></script>

@@ -1,0 +1,49 @@
+<div class="container-fluid p-4">
+  <div class="table-responsive-sm">
+    <table class="table table-hover">
+      <thead class="bg-primary">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Username</th>
+          <th scope="col">Email</th>
+          <th scope="col">Role</th>
+          <th scope="col">Date</th>
+          <th scope="col">Avatar</th>
+          <th scope="col" colspan="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-secondary">
+        {{#each json}}
+          <tr>
+            <th scope="row" width="20px">{{_id}}</th>
+            <td>{{username}}</td>
+            <td>{{email}}</td>
+            <td>{{role}}</td>
+            <td>{{moment date}}</td>
+            <td><img src="img/avatar/{{avatar}}" alt="profile photo" style="width: 50px"></td>
+            <td>
+              <form action="users/delete/{{_id}}?_method=DELETE" method="POST" id="submitDelete">
+                <input type="hidden" name="_method" value="DELETE">
+                <button id="btnDelete" type="submit">
+                  <i class="fas fa-trash-alt" id="delete" style="color: #E85454; font-size: 30px;"></i>
+                </button>
+              </form>
+            </td>
+            <td>
+              <i class="fas fa-edit" id="update" style="color: #3651D7; font-size: 30px"></i>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  $('form').submit(function(event){
+    var con = confirm('¿Desea elminar el usuario?');
+    if(!con){
+      event.preventDefault();
+    }
+  });
+</script>

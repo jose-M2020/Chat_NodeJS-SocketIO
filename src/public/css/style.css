@@ -1,0 +1,279 @@
+:root {
+    --blue: #007bff;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --red: #dc3545;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --green: #28a745;
+    --teal: #20c997;
+    --cyan: #17a2b8;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+}
+html {
+    height: 100%;
+    font-size: 14px;
+}
+html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+html[Estilo de atributos] {
+    -webkit-locale: "es";
+}
+hoja de estilo del agente de usuario
+html {
+    display: block;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+
+/*Fallas:   texto sobresalido: definir tamaño del chat
+            Chats sobrepuestos: en ciertos tamaños, los chats cortos se ponen la lado del otro;
+            boton de regresar: no alterar el css 
+            Espacio vacio: espacio vacio al lado del boton 
+            
+*/
+body{
+  background: #8e9eab;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+.options div{
+      background: #3d9a44;
+      margin: 3px;
+      width: 40px;
+      height: 40px;
+      float: left;
+    }
+
+    @media (max-width:991px){
+      .chat{
+        display: none;
+      }
+      .inf{
+        width: 100%;
+      }
+      .remitente{
+        margin-left: 80%;
+      }
+    }
+    
+    #foto_perfil img{
+      width: 42px; 
+      height: 42px; 
+      border-radius: 42px;
+      margin: 0  15px;
+    }
+    .perfiles img{
+      height: 52px; 
+      width: 52px; 
+      border-radius: 25px; 
+      margin: 0 10px 0 0;
+    }
+    .perfiles div{
+      border-bottom: 1px solid #dfe6e9;
+      height: 5rem;
+      align-items: center;
+      display: flex;
+      cursor: pointer;
+    }
+    .perfiles div:hover{
+      transition: .7s;
+      background: #dfe6e9;
+    }
+    .perfiles p, .cabecera p{
+      width: 55%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .fa-search{
+      left: -25px;
+      position: relative;
+      padding-top: 6px;
+    }
+    #time{
+      display: inline-flex; 
+      align-self: flex-start; 
+      margin-left: auto; 
+      margin-top:7px;
+    }
+    .inf{
+      background-color: #FAFAFA; 
+      display: flex; 
+      flex-direction: column; 
+      height: 100vh
+    }
+    .perfil{
+      height: 70px; 
+      background-color: #37474F; 
+      border-right: 1px solid #2d3436; 
+      color: white;
+    }
+    .perfil img{
+      height: 42px; 
+      width: 42px; 
+      border-radius: 20px; 
+      margin: 0 10px 0 6px;
+    }
+    .dropdown{
+      float: right; 
+      margin-left: 
+      auto; padding: 8px 12px;
+    }
+    .cabecera{
+      height: 70px; 
+      background-color:#37474F; 
+      color: white;  
+      position: relative;
+    }
+    input{
+      width: 90%; 
+      height: 38px; 
+      border-radius: 12px; 
+      font-size: 15px;
+      outline: none;
+      padding-left: 15px;
+    }
+    #send{
+      right: 18px;
+      position: relative;
+      padding-top: 6px;
+      background-color: #FFCC80; 
+      width: 38px; 
+      height: 38px; 
+      border-style: none; 
+      border-radius: 12px; 
+      position: absolute;
+    }
+    button:focus{
+      outline: none;
+    }
+    #chat-footer{
+      background-color: #37474F; 
+      margin-right: 0; 
+      height: 76px;
+    }
+    .historial{
+      display: flex; 
+      justify-content: space-between; 
+      flex-direction: column; 
+      overflow-x: hidden; 
+      background: linear-gradient(#455A64, #01579B); 
+      flex: 1;
+    }
+    
+    .remitente{
+      background-color: #81D4FA;
+      border-radius: 15px 1px 15px 15px;
+      margin-left: 45vh;
+    }
+    .destinatario{
+      background-color: #4DD0E1;
+      border-radius: 1px 15px 15px 15px;
+      margin-right: 45%;
+    }
+    .destinatario, .remitente{
+      padding:7px 13px 7px 13px;
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .remitente small{
+      float: left; 
+      margin-top: 20px;
+    }
+    .destinatario small{
+      float: right;
+      margin-top: 20px;
+    }
+    @media (max-width: 570px){
+      .destinatario{
+        margin-right: 8rem; 
+      }
+
+      .remitente{
+        margin-left: 8rem;
+      }
+    }
+    @media (max-width: 350px){
+      .destinatario{
+        margin-right: 2rem; 
+      }
+
+      .remitente{
+        margin-left: 2rem;
+      }
+    }
+    .hide{
+      display: none;
+    }
+
+    .show{
+      display: block;
+    }
+    #online{
+      width: 13px; 
+      height: 13px; 
+      border-radius: 13px; 
+      background-color: #64DD17; 
+      z-index: 2; 
+      position: absolute; 
+      display: flex; 
+      align-self: flex-start; 
+      margin-top: 7px;
+    }
+    #offline{
+      width: 13px; 
+      height: 13px; 
+      border-radius: 13px; 
+      background-color: #9E9E9E; 
+      z-index: 2; 
+      position: absolute; 
+      display: flex; 
+      align-self: flex-start; 
+      margin-top: 7px;
+    }
+    form #btnDelete{
+      border: none;
+      background: transparent;
+      outline: none;
+      background-color: transparent;
+    }
+    #update:hover{
+      cursor: pointer;
+    }
+    #delete:hover{
+      cursor: pointer;
+    }
