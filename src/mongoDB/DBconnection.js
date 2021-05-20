@@ -1,13 +1,9 @@
 const mongoose = require("mongoose");
 mongoose.Promise = require("bluebird");
 
-/*
-	Connect MongoDB in localhost: mongodb://localhost/chat
-	Connect MongoDB in cloud MongoDB - mlab: mongodb+srv://jose:josepass20@cluster0.sqmod.mongodb.net/chatDB?retryWrites=true&w=majority
-	Connect with uri from MongoDB Compass: mongodb+srv://jose:josepass20@cluster0.sqmod.mongodb.net/test
-*/
+// Connect to MongoDB Atlas from MongoDB Compass: mongodb+srv://jose:josepass20@cluster0.sqmod.mongodb.net/test
 
-const uri = process.env.MONGODB || "mongodb+srv://jose:josepass20@cluster0.sqmod.mongodb.net/chatDB?retryWrites=true&w=majority"; //conexion mongo
+const uri = process.env.MONGODB_URI || "mongodb://localhost/chat"; // Si hay una variable configurada nos conectamos al mongoDB definido(en este caso usamos MongoDB Atlas en heroku), sino al mongoDB de localhost
 mongoose.set('useFindAndModify', false);
 
 const connect = mongoose.connect(uri, { 
