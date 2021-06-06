@@ -9,6 +9,7 @@ const userSchema = new Schema({
     avatar: { type: String },
     role: {type: String},
     connected: {type: Boolean, default: false},
+    conversations: [String],
     date: {type: Date, default: Date.now},
 });
 

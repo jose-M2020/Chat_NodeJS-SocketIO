@@ -47,38 +47,18 @@ function getIndice(json, user) {
 }
 
 router.get('/', isAuthenticated, async (req,res) => {
-	// await Message.find()
-	// .then(documentos => {
-	// 	const contexto = {
-	// 		messages: documentos.map(documento => {
-	// 			return {
-	// 				message: documento.message,
-	// 				sender: documento.sender,
-	// 				receiver: documento.receiver,
-	// 				date: documento.date
-	// 			}
-	// 		})
-	// 	}
-	// 	res.render('index', {
-	// 		data: contexto.messages
-	// 	})
-	// })
-	
-	// const dataMsg = await Message.find().lean();
 	const dataUsers = await User.find().lean();
-	const user = req.user.username;
+	const {username, avatar} = req.user;
 
-	// remover el usuario logeado dentro del objeto json
-	dataUsers.splice(getIndice(dataUsers, user), 1);
+	// remover el usuario logeado y datos innecesarios
+	dataUsers.splice(getIndice(dataUsers, username), 1);
+	dataUsers.forEach( e => {
+		delete e.password;
+		delete e.conversations;
+		delete e.email;
+	});
 
-	dataUsers.forEach(function(item) {
-		if(item.connected == false){
-			item.connected = 'offline';
-		}else{
-			item.connected = 'online';
-		}
-	})
-	res.render('index', {dataUsers}); 
+	res.render('index', {dataUsers, username: username, avatar: avatar}); 
 });
 
 router.get('/signin', (req, res) => {
