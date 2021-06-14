@@ -1,4 +1,3 @@
-const Handlebars = require('Handlebars');
 const moment = require('moment');
 
 const helpers = {};
