@@ -1,29 +1,25 @@
 const chatSection = $('.historial .content');
 
 class UI {
-	addChatBubble = (data, user) => {
-		const {sender, message, date} = data
+	addChatBubble = (data, user, direction) => {
+		const {sender, message, date} = data;
 		let msgHTML;
 		if(sender == user){
 			msgHTML = `
-				<div class="position-relative p-2 m-0">
-			        <p class="float-right remitente">
-						<b>${sender}</b>: ${message}
-			          	<small>${moment(date).format('DD/MMM/YY-LT')}</small>
-			        </p>
+				<div class="message message-out">
+				    <p>${message}</p>
+				    <small>${moment(date).format('LT')}</small>
 			    </div>
 			`;
 		}else{
 			msgHTML = `
-				<div class="position-relative p-2 m-0">
-			        <p class="float-left destinatario">
-						<b>${sender}</b>: ${message}
-			          	<small>${moment(date).format('DD/MMM/YY-LT')}</small>
-			        </p>
+				<div class="message message-in">
+				    <p>${message}</p>
+				    <small>${moment(date).format('LT')}</small>
 			    </div>
 			`;
 		}
-		chatSection.append(msgHTML);			
+		direction === 'top' ? chatSection.prepend(msgHTML) : chatSection.append(msgHTML)			
 	}
 }
 

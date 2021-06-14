@@ -85,24 +85,42 @@ class DB {
 		return data ? data.idSocket : [];
 	}
 
-	async searchConversation(data){
+	async searchConversation({sender, receiver}){
 		const res = await Message.exists({
 			$and: [
-		     	{ users: {$in: [data.sender]} },
-		       	{ users: {$in: [data.receiver]} }
+		     	{ users: {$in: [sender]} },
+		       	{ users: {$in: [receiver]} }
 		    ]
 		})
 		return res;	//return true or false
 	}
 
-	async getMessages(data){
-		const res = await Message.findOne({
-			$and:[
-		       	{ users: {$in: [data.sender]} },
-		       	{ users: {$in: [data.receiver]} }
-		       ]
-		})
-		return res ? res.conversation : [];
+	async getMessages({sender, receiver, page}){
+		const perPage = 10;
+
+		// Buscar mensajes por orden de fecha descendente
+		const res = await Message.aggregate([
+		  {$match: { 
+		  	$and:[
+		       { users: {$in: [sender]} },
+		       { users: {$in: [receiver]} }
+		    ]
+		  }},
+		  {$unwind: "$conversation"}, 
+		  {$sort: {"conversation.date": -1}},
+		  {$skip: (perPage * page) - perPage},
+		  {$limit: perPage},
+		  {"$group": {"_id": "$_id", "conversation": {"$push": "$conversation"}}}
+		])
+
+		const c = res.length > 0 ? res[0].conversation : [];
+		const conversation = {
+			conversation: c,
+			finish: c.length < perPage ? true : false 	//Determinar si existen más mensajes
+		}
+
+		// Retornamos conversation si el usuario tiene mensajes o si despues de una consulta ya no se obtiene datos, y en el caso contrario retornamos un array vacio
+		return c.length > 0 || page > 1 ? conversation : [];
 	}
 }
 

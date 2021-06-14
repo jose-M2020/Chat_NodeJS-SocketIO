@@ -24,15 +24,15 @@ class Chat {
 	}
 	
 	setMessages = messages => {
-		chatSection.empty();
-		if(messages.length > 0){
+		if(messages){
+			// Si messages representa un array vacio (en el caso de haber obtenido datos, y posteriormente no) o con datos entra a esta condición.
 			this.messages = [...messages];
 			for(let i in messages){
-				ui.addChatBubble(messages[i], this.sender)
+				ui.addChatBubble(messages[i], this.sender, 'top');
 			}
-			$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
 		}else{
-			chatSection.append('<h4 style="color: white; text-align: center; margin-top: 20px;"> Inicia una conversacion</h4>');
+			// Si messages no tiene valor
+			chatSection.append('<h4 style="color: white; margin: 100px auto;"> Inicia una conversacion</h4>');
 		}
 	}
 

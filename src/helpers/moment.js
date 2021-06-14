@@ -3,9 +3,9 @@ const moment = require('moment');
 
 const helpers = {};
 
-helpers.moment = (timestamp) => {
-    return moment(timestamp).format('DD/MMM/YY-LT');
-};
+helpers.moment = timestamp => moment(timestamp).format('DD/MMM/YY-LT');
+
+helpers.time = timestamp => moment(timestamp).format('LT');
 
 // Funcion de prueba para uso de condicionales en handlebars
 helpers.when = function(operand_1, operator, operand_2, options) {

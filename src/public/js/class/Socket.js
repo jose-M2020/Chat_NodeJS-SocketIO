@@ -5,6 +5,7 @@ const socket = io();
 const ui = new UI();
 const chat = new Chat();
 const user = $('.perfil > p').text();
+let previousHeight
 
 let idSocket;
 socket.on('connect', () => {
@@ -16,10 +17,15 @@ socket.on('connect', () => {
 class Socket {
 	constructor(){
 		this.receiver = "";
+		this.lastMsg = false;	// Para verificar si es el último mensaje
 	}
 
 	setReceiver(receiver) {
 		this.receiver = receiver;
+	}
+
+	setLastMsg(state){
+		this.lastMsg = state
 	}
 
 	getReceiver(){
@@ -58,7 +64,7 @@ class Socket {
 			if( data.sender === this.receiver || data.sender === user){
 				// Esta condicion es para el front-end del emisor, cuando el emisor tiene dos o más pestañas abiertas, y en una de ellas envia un mensaje, en las otras pestañas no se vera reflejado, si no a seleecionado al receptor del mensaje
 				if(this.receiver === data.receiver || this.receiver === data.sender) {
-					ui.addChatBubble(data, user);
+					ui.addChatBubble(data, user,'bottom');
 					$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
 				}
 			}else{
@@ -67,17 +73,28 @@ class Socket {
 		});
 	}
 
-	emitGetMsg() {
-		// Realizamos una peticion al servidor para obtener mensajes
-      	socket.emit('getMsg', {
-       		sender: user, //el nombre del sender(user) es obtenido a travez del prompt ubicado en chat.js
-        	receiver: this.receiver
-      	});
+	emitGetMsg(page) {
+		// Comprobamos que haya más mensajes por mostrar
+		if(!this.lastMsg){
+			previousHeight = $('.historial .content').height();
+	   		$('.spinner').css('display', 'block');
+
+			// Realizamos una peticion al servidor para obtener mensajes
+	      	socket.emit('getMsg', {
+	       		sender: user, //el nombre del sender(user) es obtenido a travez del prompt ubicado en chat.js
+	        	receiver: this.receiver,
+	        	page: page
+	      	});
+	    }
 	}
 
 	onMsg() {
-		socket.on('privateMessages', messages => {
-			chat.setMessages(messages);
+		socket.on('privateMessages', async ({conversation, finish}) => {
+			this.lastMsg = finish;
+			
+			await chat.setMessages(conversation);
+			$('.historial').scrollTop($('.historial .content').height() - previousHeight);
+    		$('.spinner').css('display', 'none');
 		});
 	}
 

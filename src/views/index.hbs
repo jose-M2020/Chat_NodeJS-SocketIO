@@ -33,7 +33,7 @@
           <i class="fas fa-search"></i>
         </div>
         {{#each dataUsers}}
-          <div class="col-12 contact" data-id="{{_id}}" id="{{username}}">
+          <div class="col-12 contact" data-userId="{{_id}}" id="{{username}}">
             {{#if connected}}
               <div class="status" id="online"></div>
             {{else}}
@@ -54,7 +54,6 @@
 
      <!-- seccion derecha-> chat -->
     <div class="col-lg-7 col-md-0 col-sm-0 col-xs-0 chat" id="chat">
-      
       <div class="d-flex flex-column box-chat" style="height: 100vh;">
         <!-- encabezado -->
         <div class="row d-flex align-items-center cabecera">
@@ -64,16 +63,23 @@
             <p class="mb-0" id="usernameReceiver"></p>
           </div>
         </div>
-
         <!-- historial chat -->
         <div class="row historial">
-          <div class="content" style=" opacity: 0.8; padding-left: 30px; padding-right: 30px; font-size: 12px;">
-            <img src="img/notMsg.png" alt="Not messages" style="width: 70%; margin: 25px auto; display: block">
-            <h1 style="color: white; margin-top: 10px; text-align: center">Start chat</h1>
+          {{!-- Spinner --}}
+          <div class="sk-chase spinner">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+          </div>
+          <div class="content">
+            <img src="img/notMsg.png" alt="Not messages" style="object-fit: contain; width: 50%; margin: 25px auto; display: block">
+            <h3 style="color: white; margin: 10px auto 70px auto">Start chat</h3>
           </div>
         </div>
-
-        <!-- Messages container -->
+        <!-- Messages input container -->
         <div class="d-flex justify-content-center align-items-center row" id="chat-footer">
           <div class="mdl-card__supporting-text mdl-color-text--light-blue-50 col-12">
             {{!-- <form id="message-form"> --}}

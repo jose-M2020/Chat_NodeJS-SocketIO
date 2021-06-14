@@ -7,7 +7,8 @@ const uri = process.env.MONGODB_URI || "mongodb://localhost/chat"; // Si hay una
 mongoose.set('useFindAndModify', false);
 
 const connect = mongoose.connect(uri, { 
-	useNewUrlParser: true 
+	useNewUrlParser: true,
+	useUnifiedTopology: true 
 }).then(db => console.log('DB is connected'))
   .catch(err => console.error(err));
 

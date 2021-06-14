@@ -5,12 +5,15 @@ const socket = new Socket();
 const chat = new Chat();
 
 const sendBtn = $('#send');
-const input_msg = $('#mensaje');
-let typing = false;
-let typingTimer;    //timer identifier 
-const doneTypingInterval = 1000; //time in ms (5 seconds) 
+const inputMsg = $('#mensaje');
+const chatSection = $('.historial .content');
 const user = $('.perfil > p').text();
 
+let typing = false;
+let typingTimer;    //timer identifier 
+const doneTypingInterval = 1000; //time in ms (5 seconds)
+
+// ---------------- Boton y flecha de regresar -------------
 $(document).ready(function(){
   	$('.historial').scrollTop($(".historial")[0].scrollHeight);
 
@@ -29,10 +32,12 @@ $(document).ready(function(){
   	});
 });
 
+// ----------------------- Emit writing socket ----------------------
+
 //on keyup, start the countdown 
-input_msg.keyup(function(){
+inputMsg.keyup(function(){
     clearTimeout(typingTimer);
-    if (input_msg.val() !== "") {
+    if (inputMsg.val() !== "") {
     	if(typing == false){
 			typing = true;
 			socket.emitTyping();
@@ -47,43 +52,72 @@ function doneTyping() {
     socket.emitStopTyping();
 }
 
+// --------------------- Send message --------------------
 sendBtn.click( function() {
-	if(input_msg.val() !== "" && socket.getReceiver() !== ""){
-		socket.emitNewMsg(input_msg.val());
-		$(input_msg).val("");
+	if(inputMsg.val() !== "" && socket.getReceiver() !== ""){
+		socket.emitNewMsg(inputMsg.val());
+		$(inputMsg).val("");
 	}
 });
 
+// --------------------- Sockets - On -------------------
 socket.onNewConnection();
 socket.onDisconnection();
 socket.onNewMsg();
-socket.onMsg();
 socket.onTyping();
 socket.onStopTyping();
 
+socket.onMsg();
+
+// --------------- Infinite scroll - load data ------------
+let isLoading = false;
+let page = 0;
+
+// Load more data
+const loadData = () => {
+    page++;
+    socket.emitGetMsg(page);
+    isLoading = false;
+}
+
+// Event Scroll
+$('.historial').scroll(e => {
+  const { scrollTop, scrollHeight, offsetHeight } = e.target;
+  
+  // Verificamos que el usuario haya hecho scroll hasta la parte superior. Que exista un scrollbar, calculando que el total de scroll del contenedor sea mayor a la altura del div, ademas evitamos que en ocasiones haga un emit dos veces.
+  // Y finalmente verificamos que isLoading sea falso, para cargar los datos una vez
+  if(scrollTop < 50 && scrollHeight > offsetHeight && !isLoading){
+    isLoading = true;
+    loadData()
+  }
+})
+
 // ------------------------------------------
 
-var  width = $(window).width();//alamacena valor del tamaño de la pagina
+// Almacena valor del tamaño de la pagina
+var  width = $(window).width();
 
-  //detecta cambio del tamaño de la pagina
-  $(window).resize(function(){
-    if($(window).width()!=width){
-      width = $(window).width();//actualiza el valor de width
-    }
-  });
+//Detecta cambio del tamaño de la pagina
+$(window).resize(function(){
+  if($(window).width()!=width){
+    width = $(window).width();//actualiza el valor de width
+  }
+});
 
 //Cambiar datos del contacto(cabecera)
 $(".perfiles .contact").click(function(){
   	let contact_established = $(this).find("b").text();
   	let img = $("img", this).attr("src");
+    page = 1;
+    chatSection.empty();
 
   	$(".cabecera p").text(contact_established);
   	$(".cabecera img").attr("src",img);      
 
-
     chat.setReceiver(contact_established);
-  	socket.setReceiver(contact_established);
-  	socket.emitGetMsg();
+  	socket.setReceiver(contact_established); // Definimos el receptor
+    socket.setLastMsg(false);
+  	socket.emitGetMsg(page);
 
     if(width < 992){
       	$(".inf").css("display","none");

@@ -77,13 +77,11 @@ const socketIO = server => {
 		});
 
 		socket.on('getMsg', async data => {
-			const {sender, receiver} = data;
-
 			// Obtenemos y establecemos los id de las conexiones del receptor
-			receiverConnections = await mongoDB.getConnections(receiver);
+			receiverConnections = await mongoDB.getConnections(data.receiver);
 	
 			// obtener mensajes privados
-			let messages = await mongoDB.getMessages(data);
+			const messages = await mongoDB.getMessages(data);
 			io.to(socketId).emit('privateMessages', (messages));
 		});
 	})
