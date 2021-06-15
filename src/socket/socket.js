@@ -8,7 +8,6 @@ const socketIO = server => {
 	const io = socket(server);
 	io.on('connect', async (socket) => {
 		let socketId = socket.id;
-		let receiverConnections = [];
 		let user;
 
 		socket.on('disconnect', async () => {
@@ -19,8 +18,9 @@ const socketIO = server => {
 			socket.broadcast.emit('userDisconnected', {user: user});
 		});
 
-		socket.on('newConnection', async (data) => {
+		socket.on('newConnection', async data => {
 			user = data.user;
+			socket.join(user);
 			console.log('---', user +' connected: ' + socketId, '---');
 
 			//Guardar conexion en la BD
@@ -41,22 +41,15 @@ const socketIO = server => {
 			socket.broadcast.emit('newConnection', {user: user});		
 		});
 
-		socket.on('typing', async (data) => {
-			for(i in receiverConnections){
-		    	socket.to(receiverConnections[i]).emit('typing', data);
-			}
+		socket.on('typing', async data => {
+			socket.to(data.receiver).emit('typing', data.sender);
 		});
 
-		socket.on('stopTyping', (data) => {
-			for(i in receiverConnections){
-		    	socket.to(receiverConnections[i]).emit('stopTyping', data);
-			}
+		socket.on('stopTyping', data => {
+			socket.to(data.receiver).emit('stopTyping', data.sender);
 		});
 
-		socket.on('new_msg', async (data) => {
-			const myConnections = await mongoDB.getConnections(user);
-			receiverConnections = await mongoDB.getConnections(data.receiver);
-
+		socket.on('new_msg', async data => {
 		    await connectDB.then(async db => {
 		    	let conversationExists = await mongoDB.searchConversation(data);
 		    	
@@ -67,13 +60,8 @@ const socketIO = server => {
 		        }
 		        
 		    }).catch( err => console.log(err) );
-		    
-		    for(i in receiverConnections){
-		    	io.to(receiverConnections[i]).emit('new_msg', (data));	    	
-		    }
-		    for(i in myConnections){
-		    	io.to(myConnections[i]).emit('new_msg', (data));
-		    }
+
+		    io.to(data.receiver).to(data.sender).emit('new_msg', (data));
 		});
 
 		socket.on('getMsg', async data => {

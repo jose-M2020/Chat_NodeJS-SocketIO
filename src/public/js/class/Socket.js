@@ -100,35 +100,35 @@ class Socket {
 
 	emitTyping() {
 		socket.emit('typing', {
-			user: user,
-			sender: this.receiver
+			sender: user,
+			receiver: this.receiver
 		})
 	}
 
 	onTyping() {
-		socket.on('typing', data => {
-			if(data.user == this.receiver){
+		socket.on('typing', sender => {
+			if(sender == this.receiver){
 				$('.state').append(`<small id="typing" style="color: lightgreen">Escribiendo...</small>`);		
 			}else{
-				// let lastMsg = $(`.perfiles #${data.user} p`).text();
-				$(`.perfiles #${data.user} p`).replaceWith('<p id="typing" style="color: #2C9F37">Escribiendo...</p>');
+				// let lastMsg = $(`.perfiles #${sender} p`).text();
+				$(`.perfiles #${sender} p`).replaceWith('<p id="typing" style="color: #2C9F37">Escribiendo...</p>');
 			}
 		});
 	}
 
 	emitStopTyping() {
 		socket.emit('stopTyping', {
-			user: user,
-			sender: this.receiver
+			sender: user,
+			receiver: this.receiver
 		});
 	}
 
 	onStopTyping() {
-		socket.on('stopTyping', data => {
-			if(data.user == this.receiver){
+		socket.on('stopTyping', sender => {
+			if(sender == this.receiver){
 				$('.state #typing').remove();
 			}else{
-				$(`.perfiles #${data.user} p`).replaceWith(`<p>Test message</p>`);
+				$(`.perfiles #${sender} p`).replaceWith(`<p>Test message</p>`);
 			}
 		});
 	}
