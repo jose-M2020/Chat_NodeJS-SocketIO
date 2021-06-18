@@ -61,7 +61,7 @@ const socketIO = server => {
 		        
 		    }).catch( err => console.log(err) );
 
-		    io.to(data.receiver).to(data.sender).emit('new_msg', (data));
+		    socket.to(data.receiver).to(data.sender).emit('new_msg', (data));
 		});
 
 		socket.on('getMsg', async data => {

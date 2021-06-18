@@ -75,9 +75,6 @@ body{
   .inf{
     width: 100%;
   }
-  /*.message-out > div{
-    margin-left: 80%;
-  }*/
 }
 
 /*------------------------ Seccion izquierda - Chat -----------------*/
@@ -111,11 +108,27 @@ body{
   auto; padding: 8px 12px;
 }
 
+.dropdown span {
+  width: 9px;
+  position: absolute;
+}
+
 /* Sección de usuarios */
-.fa-search{
-  left: -25px;
+.search{
   position: relative;
-  padding-top: 6px;
+}
+
+.search input{
+  height: 50px; 
+  border-radius: 12px;
+  padding-right: 37px;
+}
+
+.search span{
+  width: 16px;
+  position: absolute;
+  right: 14px;
+  top: 20px;
 }
 
 .perfiles div{
@@ -186,6 +199,19 @@ body{
   position: relative;
 }
 
+.cabecera span {
+  display: none; 
+  cursor: pointer;
+  width: 12px;
+  margin-left: 10px;
+}
+
+@media (max-width:992px){
+  #back{
+    display: block;
+  }
+}
+
 #foto_perfil img{
   width: 42px; 
   height: 42px; 
@@ -236,6 +262,19 @@ body{
   text-align: right;
 }
 
+.message-out > p{ margin-right: 20px; }
+.message-in > p{ margin-left: 20px; }
+
+.message span{
+  color: #0897ae;
+  position: absolute;
+  top: 0;
+  width: 16px;
+}
+
+.message-out > span{right: 4px; }
+.message-in > span{ left: 4px; }
+
 .message > small {
   color: #009791;
   position: absolute;
@@ -247,17 +286,6 @@ body{
 @media (max-width: 570px){
   .message{
 
-  }
-}
-
-#back{
-  display: none; 
-  cursor: pointer;
-}
-
-@media (max-width:992px){
-  #back{
-    display: block;
   }
 }
 
@@ -362,19 +390,50 @@ button:focus{
 
 /* -------------------------Tabla de usuarios - users ----------------------- */
 
-form #btnDelete{
+#users-table #btnDelete{
   border: none;
   background: transparent;
   outline: none;
   background-color: transparent;
 }
 
-i#update:hover{
+span#update:hover{
   cursor: pointer;
 }
 
+/* -------------------------Registra de usuario - signup ----------------------- */
 
+.image-container{
+  text-align: center;
+}
+#signup img{
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 10px auto;
+}
 
+#signup input[type="file"]{
+    display: none;
+}
+
+#signup label#avatar {
+  display: block;
+  position: relative;
+  background-color: #426b98;
+  color: #ffffff;
+  font-size: 14px;
+  width: 100%;
+  padding: 8px 6px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+#signup button{
+  height: 40px;
+  font-size: 20px;
+}
 
 
 

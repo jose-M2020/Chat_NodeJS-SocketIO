@@ -4,6 +4,7 @@ import UI from './UI.js';
 const socket = io();
 const ui = new UI();
 const chat = new Chat();
+
 const user = $('.perfil > p').text();
 let previousHeight
 
@@ -50,16 +51,28 @@ class Socket {
 	}
 
 	emitNewMsg(msg) {
-		socket.emit('new_msg', {
+		const data ={
 			message: msg,
 			sender: user,
 			receiver: this.receiver,
 			date: new Date
-		});
+		}
+
+		socket.emit('new_msg', data);
+		ui.addChatBubble( data, user, 'bottom');
+		$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
 	}
 
 	onNewMsg() {
 		socket.on('new_msg', data => {
+			const firstContact = $('.perfiles').children(":first");
+			const node  = $(`#${data.sender}`);
+
+			// Colocar el contacto en la parte superior
+			if(firstContact[0] != node[0]) {
+				node.insertBefore(firstContact);
+			}
+
 			// Esta condicion es para el receptor. Si el receptor establecion chat con el emisor del mensaje, muestra el mensaje, sino, muestra una notificacion en la seccion del emisor.
 			if( data.sender === this.receiver || data.sender === user){
 				// Esta condicion es para el front-end del emisor, cuando el emisor tiene dos o más pestañas abiertas, y en una de ellas envia un mensaje, en las otras pestañas no se vera reflejado, si no a seleecionado al receptor del mensaje
