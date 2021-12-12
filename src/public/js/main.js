@@ -18,12 +18,14 @@ $(document).ready(function(){
   	$('.historial').scrollTop($(".historial")[0].scrollHeight);
 
   	//cambiar color del boton
-  	$("#send").click(function(){
-    	$(this).css("background-color","#FFA726");
-    	setTimeout(function(){
-      	$("#send").css("background-color","#FFCC80");
-    	},300);
-	});
+  	$("#send").mousedown(function(){
+    	$(this).css("transform","scale(1.2)");
+	  });
+    $("#send").mouseup(function(){
+      setTimeout(() =>{
+        $(this).css("transform","scale(1)");
+      }, 50)
+    });
   	
   	$("#back").click(function(){
     	socket.setReceiver("");

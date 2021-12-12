@@ -109,7 +109,7 @@ body{
 }
 
 .dropdown span {
-  width: 9px;
+  width: 7px;
   position: absolute;
 }
 
@@ -360,18 +360,32 @@ input{
   font-size: 15px;
   outline: none;
   padding-left: 15px;
+  border: none;
 }
 
 #send{
   right: 18px;
-  position: relative;
-  padding-top: 6px;
-  background-color: #FFCC80; 
+  /*position: relative;*/
+  /*margin-top: 6px;*/
+  background-color: transparent; 
+  color: #fff;
   width: 38px; 
   height: 38px; 
   border-style: none; 
   border-radius: 12px; 
   position: absolute;
+  box-shadow: 2px 2px 4px #666;
+  transition-property: box-shadow, color;
+  transition: .4s;
+}
+
+#send:hover{
+  box-shadow: 2px 2px 7px #116CAB;
+  color: #84BEFA;
+}
+
+#send--active{
+  box-shadow: 2px 2px 7px #116CAB;
 }
 
 button:focus{
@@ -431,7 +445,7 @@ span#update:hover{
 }
 
 #signup button{
-  height: 40px;
+  /*height: 40px;*/
   font-size: 20px;
 }
 

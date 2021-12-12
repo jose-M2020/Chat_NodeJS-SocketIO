@@ -7,7 +7,7 @@ const flash = require('connect-flash')
 const passport = require('passport');
 const express = require('express');
 
-// initiliazations
+// initializations
 const app = express();
 require('./config/passport');
 

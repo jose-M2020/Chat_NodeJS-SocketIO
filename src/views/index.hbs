@@ -12,14 +12,14 @@
         
           <!-- Dropdown -->
           <div class="btn-group dropleft d-flex align-self-start dropdown">
-            <a type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" align="right" style="">
+            <a type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" align="right">
               <span><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v" class="svg-inline--fa fa-ellipsis-v fa-w-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"></path></svg></span>
             </a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="#" >Perfil</a>
-              <a class="dropdown-item" href="#">Archivados</a>
+              {{!-- <a class="dropdown-item" href="#" >Perfil</a> --}}
+              {{!-- <a class="dropdown-item" href="#">Archivados</a> --}}
               {{!-- {{#if user.role == admi}} --}}
-              <a class="dropdown-item" href="signup">Agregar usuario</a>
+              {{!-- <a class="dropdown-item" href="signup">Agregar usuario</a> --}}
               {{!-- {{/if}} --}}
               <a class="dropdown-item" href="/logout">Salir</a>
             </div>
@@ -91,7 +91,9 @@
             {{!-- <form id="message-form"> --}}
               <div class="input-group d-flex justify-self-center">
                 <input id="mensaje" placeholder="Escribe un mensaje..." autocomplete="off">
-                <button id="send" type="submit"><img src="send.png" style="width: 33px; height: 35px; padding: 0 6px 6px 0;">
+                <button id="send" type="submit">
+                  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="paper-plane" class="svg-inline--fa fa-paper-plane fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"></path></svg>
+                  {{!-- <img src="send.png" style="width: 33px; height: 35px; padding: 0 6px 6px 0;"> --}}
                 </button>
               </div>
             {{!-- </form> --}}
