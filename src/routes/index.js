@@ -93,7 +93,7 @@ router.post('/signup', upload.single('avatar'), async (req,res) => {
 			res.redirect('/signup');
 		}else{
 			// if(avatar){
-				const newUser = new User({username, email, password, avatar});
+				const newUser = new User({username, email, password, avatar, role: 'user'});
 				newUser.password = await newUser.encryptPassword(password);
 				await newUser.save();
 				req.flash('success_msg', 'El registro ha sido exitoso');
