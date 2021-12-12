@@ -62,10 +62,10 @@ router.post('/signin', passport.authenticate('local',{
 }));
 
 router.post('/signup', upload.single('avatar'), async (req,res) => {
-	const {username, email, password, confirm_password, role} = req.body;
+	const {username, email, password, confirm_password} = req.body;
 	const errors = [];
 
-	if(username.length <= 0 || email.length <= 0 || password.length <= 0 || confirm_password.length <= 0 || role == undefined){
+	if(username.length <= 0 || email.length <= 0 || password.length <= 0 || confirm_password.length <= 0){
 		errors.push({text: 'ingresa los datos faltantes'});
 	}
 	if(password != confirm_password){
@@ -93,11 +93,11 @@ router.post('/signup', upload.single('avatar'), async (req,res) => {
 			res.redirect('/signup');
 		}else{
 			// if(avatar){
-				const newUser = new User({username, email, password, avatar, role});
+				const newUser = new User({username, email, password, avatar});
 				newUser.password = await newUser.encryptPassword(password);
 				await newUser.save();
-				req.flash('success_msg', 'El usuario ha sido registrado exitosamente');
-				res.redirect('/signup');
+				req.flash('success_msg', 'El registro ha sido exitoso');
+				res.redirect('/signin');
 			// }else{
 			// 	errors.push({text: 'Seleccione una foto de perfil'});
 			// 	res.render('auth/signup', {errors, username, email, password, confirm_password})
