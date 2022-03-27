@@ -43,6 +43,7 @@ class DB {
 		    conversation: [{
 		    	sender: data.sender,
 		        message: data.message,
+				urlImg: data.urlImg,
 				date: data.date
 		    }]
 		});
@@ -63,6 +64,7 @@ class DB {
 	      		conversation:{
 	      			sender: data.sender,
 	      			message: data.message,
+					urlImg: data.urlImg,
 	      			date: data.date 
 	      		}
 	      	}}

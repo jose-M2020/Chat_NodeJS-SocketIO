@@ -1,8 +1,10 @@
 import Socket from './class/Socket.js';
 import Chat from './class/Chat.js';
+import UI from './class/UI.js';
 
 const socket = new Socket();
 const chat = new Chat();
+const ui = new UI();
 
 const sendBtn = $('#send');
 const inputMsg = $('#mensaje');
@@ -56,8 +58,8 @@ function doneTyping() {
 
 // --------------------- Send message --------------------
 sendBtn.click( function() {
-	if(inputMsg.val() !== "" && socket.getReceiver() !== ""){
-		socket.emitNewMsg(inputMsg.val());
+	if(inputMsg.val() !== ""){
+		socket.emitNewMsg({message: inputMsg.val()});
 		$(inputMsg).val("");
 	}
 });
@@ -126,3 +128,41 @@ $(".perfiles .contact").click(function(){
       	$(".chat").css("display","block");
     } 
 });
+
+// --------------- Funciones para los stickers ---------------------
+
+$('i.sticker').click(function(){
+  $('.sticker-container').removeClass('d-none');
+  $('.input-group').addClass('d-none');
+})
+
+$('.sticker-container .close').click(function(){
+  $('.sticker-container').addClass('d-none');
+  $('.input-group').removeClass('d-none');
+})
+
+const urlGiphy = 'https://api.giphy.com/v1/stickers',
+      apiKey = 'GG9WThfghBElyfTTNLGVhyH48n2HPch4';
+
+$('#searchSticker').submit(async function(e){
+  e.preventDefault();
+  $('.spinner-search').css('display', 'flex');
+
+  const query = $('#searchSticker input').val();
+  
+  if(query.trim().length === 0) return;
+
+  try {
+    const res = await fetch(`${urlGiphy}/search?api_key=${apiKey}&q=${query}`)
+    const json = await res.json();
+    ui.addResultsStickers(json);
+    $('.spinner-search').css('display', 'none');
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+$('.results__sticker-container .row').on('click', 'div', function(e){
+  const src = $(this).find('img')[0].currentSrc
+  socket.emitNewMsg({urlImg: src});
+})

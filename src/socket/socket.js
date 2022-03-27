@@ -52,7 +52,7 @@ const socketIO = server => {
 		socket.on('new_msg', async data => {
 		    await connectDB.then(async db => {
 		    	let conversationExists = await mongoDB.searchConversation(data);
-		    	
+		    	console.log(data);
 		    	if(!conversationExists){
 		        	mongoDB.saveMessage(data);
 		        }else{

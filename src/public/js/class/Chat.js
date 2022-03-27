@@ -24,6 +24,7 @@ class Chat {
 	}
 	
 	setMessages = messages => {
+		console.log(messages);
 		if(messages){
 			// Si messages representa un array vacio (en el caso de haber obtenido datos, y posteriormente no) o con datos entra a esta condición.
 			this.messages = [...messages];

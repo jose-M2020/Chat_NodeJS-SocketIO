@@ -7,6 +7,7 @@ const chatSchema = new Schema({
         {
             sender: {type: String},
             message: { type: String },
+            urlImg: { type: String },
             date: {type: String}
         }
     ]

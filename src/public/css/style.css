@@ -238,28 +238,39 @@ body{
 }
 
 .message{
-  position: relative;
+  /* position: relative; */
   margin: 15px 0;
   word-wrap: break-word;
   max-width: 90%;
-  min-width: 70px;
+  min-width: 100px;
   padding: 8px 6px;
-  position: relative;
+}
+
+.message img{
+  height: max(10rem, 30vh);
+  object-fit: contain;
 }
 
 .message-out{
-  border-radius: 15px 1px 15px 15px;
-  background-color: #81D4FA;
-  border: 1px solid #cccccc;
   align-self: flex-end;
   text-align: left;
 }
 
+.message-out > div{
+  border-radius: 15px 1px 15px 15px;
+  background-color: #81D4FA;
+  border: 1px solid #cccccc;
+  padding: 8px 6px;
+}
+
 .message-in{
+  text-align: right;
+}
+
+.message-in > div{
   border-radius: 1px 15px 15px 15px;
   background-color: #4DD0E1;
   border: 1px solid #cccccc;
-  text-align: right;
 }
 
 .message-out > p{ margin-right: 20px; }
@@ -267,8 +278,8 @@ body{
 
 .message span{
   color: #0897ae;
-  position: absolute;
-  top: 0;
+  /* position: absolute; */
+  /* top: 0; */
   width: 16px;
 }
 
@@ -350,21 +361,35 @@ body{
 /* Footer */
 #chat-footer{
   background-color: #37474F;
-  height: 76px;
+  padding: 15px 0;
+  /* height: 76px; */
 }
 
-input{
-  width: 90%; 
+#chat-footer .input-group{
+  display: flex;
+  align-items: center;
+}
+
+#chat-footer i.sticker{
+  font-size: 30px;
+  color: #fff;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+#chat-footer input{
+  /* width: 90%;  */
   height: 38px; 
   border-radius: 12px; 
   font-size: 15px;
   outline: none;
   padding-left: 15px;
   border: none;
+  margin-right: 15px;
 }
 
-#send{
-  right: 18px;
+#chat-footer #send{
+  /* right: 18px; */
   /*position: relative;*/
   /*margin-top: 6px;*/
   background-color: transparent; 
@@ -373,13 +398,13 @@ input{
   height: 38px; 
   border-style: none; 
   border-radius: 12px; 
-  position: absolute;
+  /* position: absolute; */
   box-shadow: 2px 2px 4px #666;
   transition-property: box-shadow, color;
   transition: .4s;
 }
 
-#send:hover{
+#chat-footer #send:hover{
   box-shadow: 2px 2px 7px #116CAB;
   color: #84BEFA;
 }
@@ -392,7 +417,46 @@ button:focus{
   outline: none;
 }
 
+#chat-footer .sticker-container .close{
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+}
 
+#chat-footer .sticker-container .search{
+  margin-right: 15px;
+}
+
+#chat-footer .sticker-container .search button{
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #37474f;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+#chat-footer .results__sticker-container{
+  height: 40vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#chat-footer .item__sticker-container{ 
+  cursor: pointer; 
+}
+
+#chat-footer .item__sticker-container:hover{ 
+  background-color: rgb(26 38 44);
+}
+
+#chat-footer .results__sticker-container .row img{ 
+  height: max(10rem, 30vh);
+  object-fit: contain;
+}
 
 .hide{
   display: none;

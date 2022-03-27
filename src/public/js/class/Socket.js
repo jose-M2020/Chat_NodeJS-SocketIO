@@ -50,17 +50,20 @@ class Socket {
 		});
 	}
 
-	emitNewMsg(msg) {
-		const data ={
-			message: msg,
-			sender: user,
-			receiver: this.receiver,
-			date: new Date
-		}
+	emitNewMsg({message, urlImg}) {
+		if(this.receiver !== ""){
+			const data ={
+				message,
+				urlImg,
+				sender: user,
+				receiver: this.receiver,
+				date: new Date
+			}
 
-		socket.emit('new_msg', data);
-		ui.addChatBubble( data, user, 'bottom');
-		$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
+			socket.emit('new_msg', data);
+			ui.addChatBubble( data, user, 'bottom');
+			$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
+		}
 	}
 
 	onNewMsg() {
