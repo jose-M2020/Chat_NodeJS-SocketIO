@@ -246,6 +246,11 @@ body{
   padding: 8px 6px;
 }
 
+.message > div{
+  padding: 8px 6px;
+  border: 1px solid #cccccc;
+}
+
 .message img{
   height: max(10rem, 30vh);
   object-fit: contain;
@@ -259,8 +264,6 @@ body{
 .message-out > div{
   border-radius: 15px 1px 15px 15px;
   background-color: #81D4FA;
-  border: 1px solid #cccccc;
-  padding: 8px 6px;
 }
 
 .message-in{
@@ -270,7 +273,6 @@ body{
 .message-in > div{
   border-radius: 1px 15px 15px 15px;
   background-color: #4DD0E1;
-  border: 1px solid #cccccc;
 }
 
 .message-out > p{ margin-right: 20px; }
@@ -454,7 +456,7 @@ button:focus{
 }
 
 #chat-footer .results__sticker-container .row img{ 
-  height: max(10rem, 30vh);
+  height: max(10rem, 20vh);
   object-fit: contain;
 }
 

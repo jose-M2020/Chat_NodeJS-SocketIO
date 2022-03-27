@@ -38,18 +38,22 @@ class UI {
 		}else{
 			if(urlImg?.length){
 				msgHTML = `
-				<div class="message message-out">
-					<img class="w-100" src="${urlImg}">
-				    <small>${moment(date).format('LT')}</small>
-			    </div>
-			`;
+					<div class="message message-in">
+						<img class="w-100" src="${urlImg}">
+						<div>
+							<small>${moment(date).format('LT')}</small>
+						</div>
+					</div>
+				`;
 			}else{
 				msgHTML = `
-				<div class="message message-in">
-				    <p>${message}</p>
-				    <small>${moment(date).format('LT')}</small>
-			    </div>
-			`;
+					<div class="message message-in">
+						<div>
+							<p>${message}</p>
+							<small>${moment(date).format('LT')}</small>
+						</div>
+					</div>
+				`;
 			}
 		}
 		direction === 'top' ? chatSection.prepend(msgHTML) : chatSection.append(msgHTML)			
@@ -63,7 +67,7 @@ class UI {
 		searchSection.empty();
 		data.forEach(item => {
 			const element = `
-			<div class="col-md-3 text-center item__sticker-container">
+			<div class="col-4 col-md-4 text-center item__sticker-container">
 				<img class="w-100" src="${item.images.downsized_medium.url}" alt="${item.title}">
 			</div>
 			`;
