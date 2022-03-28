@@ -3,7 +3,7 @@
   "short_name": "Meet me",
   "description": "Aplicación web de chat en linea",
   "start_url": "/",
-  "display": "fullscreen",
+  "display": "standalone",
   "theme_color": "#ddd",
   "background_color": "#2d3436",
   "icons": [

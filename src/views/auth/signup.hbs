@@ -65,10 +65,13 @@
 </div>
 
 <script type="text/javascript">
-	let uploadButton = document.getElementById("avatar");
-	let chosenImage = document.getElementById("chosen-image");
-	let fileName = document.getElementById("file-name");
-
+	const uploadButton = document.getElementById("avatar"),
+		  chosenImage = document.getElementById("chosen-image"),
+		  fileName = document.getElementById("file-name"),
+		  form = document.getElementById('signup'),
+		  inputs = document.querySelectorAll('#signup input'),
+		  PUBLIC_VAPID_KEY = 'BEDHrsNQttbBX0C0Mf_D8arMWZd79v9irUW8xsfUpRaMJ2zVlB5z4WlixlQPZ5UKlA2xP-4bHW5qIZRXFEy6l44';
+	
 	uploadButton.onchange = () => {
 	    let reader = new FileReader();
 	    reader.readAsDataURL(uploadButton.files[0]);
@@ -77,4 +80,32 @@
 	    }
 	    fileName.textContent = uploadButton.files[0].name;
 	}
+
+	form.addEventListener('submit', e => {
+		e.preventDefault();
+		
+		let errors = [];
+		let passwords = []
+
+		inputs.forEach(input => {
+			const {name} = input;
+			if(input.value.trim().length === 0){
+				errors.push(name);	
+			}
+			if(name === 'password' || name === 'confirm_password'){
+				passwords.push(input.value);
+			}
+		})
+
+		if(errors.length > 0){
+			toastr.error('Completa todos los campos.', 'Error!')
+		}else if(passwords[0] !== passwords[1]){
+			toastr.error('Las contraseñas no coinciden.', 'Error!')
+		}else{
+			console.log('ready to submit!');
+			form.submit();
+			//subscribe();
+		}
+	})
+
 </script>

@@ -8,7 +8,8 @@ const chatSchema = new Schema({
             sender: {type: String},
             message: { type: String },
             urlImg: { type: String },
-            date: {type: String}
+            read: { type: Boolean },
+            date: { type: String }
         }
     ]
 });

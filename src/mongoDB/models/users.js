@@ -11,6 +11,14 @@ const userSchema = new Schema({
     connected: {type: Boolean, default: false},
     conversations: [String],
     date: {type: Date, default: Date.now},
+    pushSubscripton:  {
+        endpoint: { type: String },
+        expirationTime: { type: Number },
+        keys: {
+          p256dh: { type: String },
+          auth: { type: String }
+        }
+    }
 });
 
 userSchema.methods.encryptPassword = async (password) =>{

@@ -63,6 +63,8 @@ class Socket {
 			socket.emit('new_msg', data);
 			ui.addChatBubble( data, user, 'bottom');
 			$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
+		}else{
+			toastr.warning('Selecciona un usuario.', '¿Con quién quieres chatear?');
 		}
 	}
 
@@ -84,6 +86,8 @@ class Socket {
 					$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
 				}
 			}else{
+				toastr.options.preventDuplicates = false;
+				toastr.info(`${data.sender} te ha enviado un nuevo mensaje.`);
 				notification(data.sender);
 			}
 		});

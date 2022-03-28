@@ -25,3 +25,36 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	const form = document.getElementById('signin'),
+		  inputs = document.querySelectorAll('#signin input');
+	let emailAddr;
+
+	form.addEventListener('submit', e => {
+		e.preventDefault();
+		console.log('submit')
+		let errors = [];
+
+		inputs.forEach(input => {
+			const {name} = input;
+			if(input.value.trim().length === 0){
+				errors.push(name);	
+			}
+			if(name === 'email'){
+				emailAddr = input.value.trim();
+			}
+		})
+		
+		if(errors.length > 0){
+			toastr.error('Completa todos los campos.', 'Error!');
+		}
+		else if(!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailAddr))){
+			toastr.error('El email es incorrecto.', 'Error!');
+		}
+		else{
+			console.log('ready to submit!');
+			form.submit();
+		}
+	})
+</script>
