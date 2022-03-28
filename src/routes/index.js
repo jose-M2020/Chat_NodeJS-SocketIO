@@ -7,8 +7,10 @@ const fs = require('fs');
 const uuid = require('uuid');
 const { isAuthenticated } = require('../auth/auth');
 
-const express = require('express');
-const router = express.Router();
+const { Router } = require('express');
+const router = Router();
+
+const webpush = require("../webpush");
 
 const multer  = require('multer');
 var upload = multer({ dest: 'uploads/' });
@@ -46,6 +48,8 @@ router.get('/', isAuthenticated, async (req,res) => {
 
 	res.render('index', {dataUsers, username: username, avatar: avatar}); 
 });
+
+// ---------------------------- Auth
 
 router.get('/signin', (req, res) => {
 	res.render('auth/signin');
@@ -111,6 +115,8 @@ router.get('/logout', isAuthenticated, (req, res) => {
 	res.redirect('/signin');
 });
 
+// -----------------------------
+
 router.get('/users', isAuthenticated, async (req, res) => {
 	const username = req.user.username;
 	const json = await User.find(
@@ -136,7 +142,27 @@ router.delete('/users/delete/:id', isAuthenticated, async (req,res) => {
 	res.redirect('/users');
 });
 
-// -------------------------Test---------------------------
+router.get('/sw.js', async (req, res) => {
+	res.header("Content-Type", "text/javascript");
+    res.sendFile(path.join(__dirname,"../public/js/sw.js"));
+})
+
+// ------------------------------ Web Push
+
+router.post("/subscription", async (req, res) => {
+	global.pushSubscripton = req.body;
+	
+	// Server's Response
+	res.status(201).json();
+
+	try {
+		await webpush.sendNotification(global.pushSubscripton, JSON.stringify({message: 'Suscrito!'}));
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+// ------------------------- Test
 
 router.get('/getUserData/:sender/:receiver/:page', async (req, res) => {
 	const { sender, receiver, page } = req.params;
@@ -147,7 +173,6 @@ router.get('/getUserData/:sender/:receiver/:page', async (req, res) => {
 	// 	{password: 0}
 	// )
 	
-
 	const json = await Message.aggregate([
 		  {$match: { 
 		  	$and:[

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const path = require('path');
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
@@ -10,6 +11,8 @@ const express = require('express');
 // initializations
 const app = express();
 require('./config/passport');
+
+global.pushSubscripton;
 
 app.use(bodyParser.json());
 // Settings
@@ -29,6 +32,7 @@ app.set('view engine', '.hbs');
 
 // Middleware
 app.use(express.urlencoded({extended: false}));	//urlencoded sirve cuando un determinado dato se envia, pueda entenderlo
+app.use(express.json());
 app.use(methodOverride('_method')); 
 app.use(session ({
 	secret: 'secretApp',

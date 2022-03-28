@@ -3,6 +3,7 @@ const connectDB = require('../mongoDB/DBconnection');
 const DB = require('../mongoDB/class/DB');
 const mongoDB = new DB();
 
+const webpush = require("../webpush");
 
 const socketIO = server => {
 	const io = socket(server);
@@ -52,12 +53,18 @@ const socketIO = server => {
 		socket.on('new_msg', async data => {
 		    await connectDB.then(async db => {
 		    	let conversationExists = await mongoDB.searchConversation(data);
-		    	console.log(data);
 		    	if(!conversationExists){
 		        	mongoDB.saveMessage(data);
 		        }else{
 		        	mongoDB.updateMessages(data);
 		        }
+				
+				// console.log('pushSubscripton: ', global.pushSubscripton);
+				// try {
+				// 	await webpush.sendNotification(global.pushSubscripton, JSON.stringify(data));
+				// } catch (error) {
+				// 	console.log(error);
+				// }
 		        
 		    }).catch( err => console.log(err) );
 
