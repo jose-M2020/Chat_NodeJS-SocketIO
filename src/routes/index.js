@@ -1,6 +1,7 @@
 const Message = require('../mongoDB/models/messages');
 const User = require('../mongoDB/models/users');
 const Connection = require('../mongoDB/models/connections');
+const NotificationSubscription = require('../mongoDB/models/notificationSubscription');
 const passport = require('passport');
 const path = require('path');
 const fs = require('fs');
@@ -38,15 +39,17 @@ var upload = multer({
 });
 
 router.get('/', isAuthenticated, async (req,res) => {
-	const {username, avatar} = req.user;
+	const {email} = req.user;
 
+	const user = await User.findOne({email}, '_id email username avatar role').lean();
+	
 	// Realizamos una busqueda en la BD, removemos el usuario logeado y datos innecesarios
 	const dataUsers = await User.find(
-		{username: {$ne: username}},
+		{email: {$ne: email}},
 		{password: 0, conversations: 0, email: 0, role: 0, __v: 0}
 	).lean();
 
-	res.render('index', {dataUsers, username: username, avatar: avatar}); 
+	res.render('index', {dataUsers, user}); 
 });
 
 // ---------------------------- Auth
@@ -150,13 +153,19 @@ router.get('/sw.js', async (req, res) => {
 // ------------------------------ Web Push
 
 router.post("/subscription", async (req, res) => {
-	global.pushSubscripton = req.body;
+	const { user, subscription: { endpoint, expirationTime, keys: { p256dh, auth}} } = req.body,
+	find = await NotificationSubscription.findOne({endpoint});
+	// global.pushSubscripton = req.body;
 	
-	// Server's Response
-	res.status(201).json();
+	if(!find){
+		const newSubscription = new NotificationSubscription({user, endpoint, expirationTime, keys: { p256dh, auth}});
+		newSubscription.save();
+	}
 
+	res.status(201).json();
+	
 	try {
-		await webpush.sendNotification(global.pushSubscripton, JSON.stringify({message: 'Suscrito!'}));
+		// await webpush.sendNotification(global.pushSubscripton, JSON.stringify({message: 'Suscrito!'}));
 	} catch (error) {
 		console.log(error);
 	}

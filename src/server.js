@@ -26,13 +26,13 @@ app.engine('.hbs', exphbs({
 	layoutsDir: path.join(app.get('views'), 'layouts'), //define la ruta del main.hbs, concatenando con la dir de views ya creada
 	partialsDir: path.join(app.get('views'), 'partials'),  //los partials son pequeñas partes de html que podemos reutiliar en cualquier vista
 	extname: '.hbs',     //extension que van a tener nuestros archivos
-	helpers: require('./helpers/moment')
+	helpers: require('./helpers/moment'),
 }));
 app.set('view engine', '.hbs');
 
 // Middleware
 app.use(express.urlencoded({extended: false}));	//urlencoded sirve cuando un determinado dato se envia, pueda entenderlo
-app.use(express.json());
+// app.use(express.json());
 app.use(methodOverride('_method')); 
 app.use(session ({
 	secret: 'secretApp',

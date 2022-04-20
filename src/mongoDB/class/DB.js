@@ -38,14 +38,11 @@ class DB {
 	}
 
 	async saveMessage(data){
+		const {sender, receiver, message, urlImg, date} = data;
+		
 		let newMsg = new Message({
-	     	users: [data.sender, data.receiver],
-		    conversation: [{
-		    	sender: data.sender,
-		        message: data.message,
-				urlImg: data.urlImg,
-				date: data.date
-		    }]
+	     	users: [sender, receiver],
+		    conversation: [{sender, message, urlImg, date}]
 		});
 
 		await newMsg.save()
@@ -55,17 +52,16 @@ class DB {
 	}
 
 	async updateMessages(data){
+		const {sender, receiver, message, urlImg, date} = data;
+
 		await Message.updateOne(
 	      	{$and: [
-		    	{ users: {$in: [data.sender]} },
-		    	{ users: {$in: [data.receiver]} }
+		    	{ users: {$in: [sender]} },
+		    	{ users: {$in: [receiver]} }
 		    ]},
 	      	{$push: {
 	      		conversation:{
-	      			sender: data.sender,
-	      			message: data.message,
-					urlImg: data.urlImg,
-	      			date: data.date 
+	      			sender,	message, urlImg, date 
 	      		}
 	      	}}
 	    )

@@ -1,11 +1,11 @@
 import Chat from './Chat.js';
 import UI from './UI.js';
 
-const socket = io();
-const ui = new UI();
-const chat = new Chat();
+const socket = io(),
+		  ui = new UI(),
+		  chat = new Chat(),
+		 user = $('.perfil > p').text();
 
-const user = $('.perfil > p').text();
 let previousHeight
 
 let idSocket;

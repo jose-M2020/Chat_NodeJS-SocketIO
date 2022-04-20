@@ -9,7 +9,7 @@ var filesToCache = [
 
 /* Start the service worker and cache all of the app's content */
 self.addEventListener('install', function(e) {
-  console.log('used to register the service worker')
+  console.log('used to register the service worker');
   e.waitUntil(
     caches.open(cacheName)
         .then(function(cache) {

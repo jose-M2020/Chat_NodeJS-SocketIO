@@ -48,7 +48,9 @@
 <script>
   // --------------- Registrar service worker ----------------
   const PUBLIC_VAPID_KEY = 'BEDHrsNQttbBX0C0Mf_D8arMWZd79v9irUW8xsfUpRaMJ2zVlB5z4WlixlQPZ5UKlA2xP-4bHW5qIZRXFEy6l44';
-
+  //const idUser = $('.profile').attr("data-uid")
+  const user = $('.perfil > p').text();
+  
   window.onload = async () => {
     if ('serviceWorker' in navigator) {
       try{
@@ -60,17 +62,17 @@
           userVisibleOnly: true,
           applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY)
         })
+        
+        const data = {subscription, user};
 
         // Send Notification        
-        /*
         await fetch('/subscription', {
           method: 'POST',
-          body: JSON.stringify(subscription),
+          body: JSON.stringify(data),
           headers: {
             "Content-Type": "application/json"
           }
         })
-        */
       } catch(err) {
         console.log('Service worker not registered: ', err)
       }

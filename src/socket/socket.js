@@ -2,7 +2,7 @@ const socket = require('socket.io');
 const connectDB = require('../mongoDB/DBconnection');
 const DB = require('../mongoDB/class/DB');
 const mongoDB = new DB();
-
+const NotificationSubscription = require('../mongoDB/models/notificationSubscription');
 const webpush = require("../webpush");
 
 const socketIO = server => {
@@ -51,6 +51,8 @@ const socketIO = server => {
 		});
 
 		socket.on('new_msg', async data => {
+			const {receiver, sender} = data;
+
 		    await connectDB.then(async db => {
 		    	let conversationExists = await mongoDB.searchConversation(data);
 		    	if(!conversationExists){
@@ -59,16 +61,17 @@ const socketIO = server => {
 		        	mongoDB.updateMessages(data);
 		        }
 				
-				// console.log('pushSubscripton: ', global.pushSubscripton);
-				// try {
-				// 	await webpush.sendNotification(global.pushSubscripton, JSON.stringify(data));
-				// } catch (error) {
-				// 	console.log(error);
-				// }
-		        
+				const pushSubscripton = await NotificationSubscription.findOne({user: receiver}).lean();
+				if(pushSubscripton){
+					try {
+						await webpush.sendNotification(pushSubscripton, JSON.stringify(data));
+					} catch (error) {
+						console.log(error);
+					}
+				}
 		    }).catch( err => console.log(err) );
 
-		    socket.to(data.receiver).to(data.sender).emit('new_msg', (data));
+		    socket.to(receiver).to(sender).emit('new_msg', (data));
 		});
 
 		socket.on('getMsg', async data => {
