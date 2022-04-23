@@ -19,7 +19,13 @@ var upload = multer({ dest: 'uploads/' });
 var avatar;
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-  	cb(null, path.join(__dirname, '../../uploads/avatar'));
+	const pathImg = path.join(__dirname, '../../uploads/avata');
+
+	if (!fs.existsSync(pathImg)){
+		fs.mkdirSync(pathImg);
+	}
+
+  	cb(null, pathImg);
   },
   filename: function (req, file, cb) {
   	avatar = uuid.v4() + file.originalname;
