@@ -1,21 +1,21 @@
 import Socket from './class/Socket.js';
-import Chat from './class/Chat.js';
+import chat from './class/Chat.js';
 import UI from './class/UI.js';
-
-const socket = new Socket();
-const chat = new Chat();
-const ui = new UI();
 
 const sendBtn = $('#send');
 const inputMsg = $('#mensaje');
 const chatSection = $('.historial .content');
-const user = $('.perfil > p').text();
+
+// const chat = new Chat(user, '');
+const socket = new Socket();
+const ui = new UI();
 
 let typing = false;
 let typingTimer;    //timer identifier 
 const doneTypingInterval = 1000; //time in ms (5 seconds)
 
-// ---------------- Boton y flecha de regresar -------------
+// ---------------- Boton de enviar y flecha de regresar -------------
+
 $(document).ready(function(){
   	$('.historial').scrollTop($(".historial")[0].scrollHeight);
 
@@ -30,7 +30,8 @@ $(document).ready(function(){
     });
   	
   	$("#back").click(function(){
-    	socket.setReceiver("");
+      chat.receiver = '';
+    	socket.setReceiver('');
     	$(".inf").css("display","block");
     	$(".chat").css("display","none");
   	});
@@ -96,7 +97,7 @@ $('.historial').scroll(e => {
   }
 })
 
-// ------------------------------------------
+// --------------------------
 
 // Almacena valor del tamaño de la pagina
 var  width = $(window).width();
@@ -108,18 +109,25 @@ $(window).resize(function(){
   }
 });
 
-//Cambiar datos del contacto(cabecera)
+// --------------- Evento clic en los contactos --------------
+
 $(".perfiles .contact").click(function(){
-  	let contact_established = $(this).find("b").text();
-  	let img = $("img", this).attr("src");
+    const receiverId = $(this).attr('data-userid'),
+  	         receiver = $(this).find("b").text(),
+  	         img = $("img", this).attr("src");
     page = 1;
+
+    $(this).parent().find('.contact.selected').removeClass('selected');
+    $(this).addClass('selected');
     chatSection.empty();
 
-  	$(".cabecera p").text(contact_established);
+  	$(".cabecera p").text(receiver);
   	$(".cabecera img").attr("src",img);      
 
-    chat.setReceiver(contact_established);
-  	socket.setReceiver(contact_established); // Definimos el receptor
+    chat.receiver = receiver;
+    chat.receiverId = receiverId;
+
+  	socket.setReceiver(receiver); // Definimos el receptor
     socket.setLastMsg(false);
   	socket.emitGetMsg(page);
 
@@ -129,7 +137,7 @@ $(".perfiles .contact").click(function(){
     } 
 });
 
-// --------------- Funciones para los stickers ---------------------
+// --------------- Funciones para la seccion de stickers ---------------------
 
 $('i.sticker').click(function(){
   $('.sticker-container').removeClass('d-none');
@@ -166,3 +174,21 @@ $('.results__sticker-container .row').on('click', 'div', function(e){
   const src = $(this).find('img')[0].currentSrc
   socket.emitNewMsg({urlImg: src});
 })
+
+// ----------- Comunicacion con el service worker ---------------
+
+// navigator.serviceWorker.addEventListener('message', event => {
+//   console.log(event.data.msg, event.data.url);
+// });
+
+navigator.serviceWorker.onmessage = event => {
+  const {type, sender, message} = event.data;
+  
+  if (event.data && type === 'REPLY_PUSH') {
+    if(chat.receiver !== sender){
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SHOW_NOTIFICATION', sender, message
+      });
+    }
+  }
+};

@@ -17,12 +17,17 @@
   <title>Meet me</title>
   {{!-- Google Fonts --}}
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  {{!-- CDN Fontawesome --}}
+  {{!-- Fontawesome --}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  {{!-- CDN Bootstrap --}}
+  {{!-- Bootstrap CSS --}}
   <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
   {{!-- Estilo personalizado --}}
   <link rel="stylesheet" type="text/css" href="./css/style.css">
+  {{!-- Animate CSS --}}
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
   {{!-- JQuery --}}
   <script src="./js/libraries/jquery-3.6.0.min.js"></script>
   {{!-- toastr --}}
@@ -42,16 +47,30 @@
 
     {{{body}}}
 
+{{!-- Moment.JS --}}
 <script src="/js/libraries/moment.js"></script>
+{{!-- Bootstrap.JS --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/js/sw.js"></script>
+{{!-- WOW.JS --}}
+<script 
+     src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" 
+     integrity="sha512-Eak/29OTpb36LLo2r47IpVzPBLXnAMPAVypbSZiZ4Qkf8p/7S/XRG5xp7OKWPPYfJT6metI+IORkR5G8F900+g==" 
+     crossorigin="anonymous" 
+     referrerpolicy="no-referrer">
+</script>
+<script>
+      new WOW().init();
+</script>
+{{!-- Service worker  --}}
+<script src="/js/sw.js" type="module"></script>
 <script>
   // --------------- Registrar service worker ----------------
   const PUBLIC_VAPID_KEY = 'BEDHrsNQttbBX0C0Mf_D8arMWZd79v9irUW8xsfUpRaMJ2zVlB5z4WlixlQPZ5UKlA2xP-4bHW5qIZRXFEy6l44';
   //const idUser = $('.profile').attr("data-uid")
-  const user = $('.perfil > p').text();
   
   window.onload = async () => {
+    const user = $('.perfil .perfil__username').text();
+    
     if ('serviceWorker' in navigator) {
       try{
         const register  = await navigator.serviceWorker.register('sw.js')
@@ -63,12 +82,10 @@
           applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY)
         })
         
-        const data = {subscription, user};
-
         // Send Notification        
         await fetch('/subscription', {
           method: 'POST',
-          body: JSON.stringify(data),
+          body: JSON.stringify({subscription, user}),
           headers: {
             "Content-Type": "application/json"
           }

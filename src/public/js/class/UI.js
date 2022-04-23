@@ -2,13 +2,15 @@ const chatSection = $('.historial .content');
 const searchSection = $('.results__sticker-container .row');
 
 class UI {
-	addChatBubble = (data, user, direction) => {
+	addChatBubble = (data, user, direction, initBlock) => {
 		const {sender, message, urlImg, date} = data;
+		// console.log(initBlock, ': ', sender)
+
 		let msgHTML;
 		if(sender == user){
 			if(urlImg?.length){
 				msgHTML = `
-					<div class="message message-out">
+					<div class="message message-out bubble mt-3 animate__animated animate__fadeInDown">
 						<img class="w-100" src="${urlImg}">
 						<div>
 							<div class="d-flex align-items-center justify-content-between">
@@ -22,9 +24,9 @@ class UI {
 				`;
 			}else{
 				msgHTML = `
-					<div class="message message-out">
+					<div class="message message-out animate__animated animate__fadeInDown ${initBlock ? 'mt-1' : 'bubble mt-3'}">
 						<div>
-							<p>${message}</p>
+							<p class="mb-0">${message}</p>
 							<div class="d-flex align-items-center justify-content-between">
 								<small>${moment(date).format('LT')}</small>
 								<span class="ml-2">
@@ -38,7 +40,7 @@ class UI {
 		}else{
 			if(urlImg?.length){
 				msgHTML = `
-					<div class="message message-in">
+					<div class="message message-in bubble mt-3 animate__animated animate__fadeInDown">
 						<img class="w-100" src="${urlImg}">
 						<div>
 							<small>${moment(date).format('LT')}</small>
@@ -47,9 +49,9 @@ class UI {
 				`;
 			}else{
 				msgHTML = `
-					<div class="message message-in">
+					<div class="message message-in animate__animated animate__fadeInDown ${initBlock ? 'mt-1' : 'bubble mt-3'}">
 						<div>
-							<p>${message}</p>
+							<p class="mb-0">${message}</p>
 							<small>${moment(date).format('LT')}</small>
 						</div>
 					</div>

@@ -1,10 +1,10 @@
-import Chat from './Chat.js';
+import chat from './Chat.js';
 import UI from './UI.js';
 
 const socket = io(),
 		  ui = new UI(),
-		  chat = new Chat(),
-		 user = $('.perfil > p').text();
+		//   chat = new Chat(),
+		 user = $('.perfil .perfil__username').text();
 
 let previousHeight
 
@@ -61,6 +61,10 @@ class Socket {
 			}
 
 			socket.emit('new_msg', data);
+			// TODO hacer cambios
+
+			console.log(chat.messages);
+
 			ui.addChatBubble( data, user, 'bottom');
 			$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
 		}else{

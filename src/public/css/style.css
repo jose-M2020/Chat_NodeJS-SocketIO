@@ -28,37 +28,38 @@
     --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 }
+
+/* hoja de estilo general
+---------------------------------------------------------------------------------*/
+
 html {
     height: 100%;
     font-size: 14px;
-}
-html {
     font-family: sans-serif;
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
 }
+
 *, ::after, ::before {
     box-sizing: border-box;
 }
 
-/*hoja de estilo del agente de usuario*/
-html {
-    display: block;
-}
 *, ::after, ::before {
     box-sizing: border-box;
 }
 *, ::after, ::before {
     box-sizing: border-box;
 }
-
 
 body{
-  background: #8e9eab;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+  /* background: #8e9eab; 
+  background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);
+  background: linear-gradient(to right, #eef2f3, #8e9eab); */
+  background-image: url(../img/bg.svg);
+  /* background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1080%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='%230e2a47'%3e%3c/rect%3e%3cpath d='M0%2c556.001C101.893%2c566.516%2c164.797%2c444.516%2c243.67%2c379.158C312.317%2c322.274%2c393.639%2c277.752%2c432.572%2c197.549C471.954%2c116.421%2c482.875%2c21.073%2c459.818%2c-66.112C437.912%2c-148.947%2c370.354%2c-207.876%2c309.423%2c-268.117C252.787%2c-324.113%2c194.351%2c-379.287%2c118.499%2c-403.571C41.542%2c-428.209%2c-43.696%2c-434.58%2c-119%2c-405.277C-191.72%2c-376.979%2c-229.505%2c-301.856%2c-284.683%2c-246.68C-344.997%2c-186.369%2c-444.663%2c-150.09%2c-458.385%2c-65.906C-472.09%2c18.175%2c-395.692%2c87.767%2c-351.022%2c160.307C-311.763%2c224.06%2c-263.046%2c275.985%2c-213.36%2c331.994C-143.514%2c410.729%2c-104.695%2c545.197%2c0%2c556.001' fill='%230a1f35'%3e%3c/path%3e%3cpath d='M1440 1160.301C1562.159 1154.871 1692.698 1179.358 1796.511 1114.742 1900.786 1049.839 1955.452 929.886 1996.296 814.052 2034.607 705.402 2040.911 589.956 2021.603 476.378 2002.656 364.925 1952.403 264.849 1887.228 172.47500000000002 1816.134 71.71100000000001 1740.8809999999999-30.903999999999996 1628.252-81.12900000000002 1507.664-134.90300000000002 1365.272-161.86400000000003 1241.687-115.39099999999996 1120.4-69.78200000000004 1053.772 55.05799999999999 980.991 162.267 915.743 258.38 843.725 357.81399999999996 841.594 473.962 839.553 585.182 935.076 669.059 969.752 774.755 1010.477 898.887 961.495 1064.537 1062.522 1147.367 1161.894 1228.8400000000001 1311.625 1166.007 1440 1160.301' fill='%2312355a'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1080'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e"); */
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 /*.options div{
   background: #3d9a44;
@@ -77,21 +78,26 @@ body{
   }
 }
 
-/*------------------------ Seccion izquierda - Chat -----------------*/
+/* Seccion izquierda - Chat
+---------------------------------------------------------------------------------*/
 
 .inf{
-  background-color: #FAFAFA; 
+  background-color: rgb(9 25 40 / 98%);
+  color: #f2f7f8;
   display: flex; 
   flex-direction: column; 
   height: 100vh
 }
 
-/* Cabecera */
+/*----------------- Cabecera */
+
 .perfil{
-  height: 70px; 
-  background-color: #37474F; 
+  border-bottom: 2px solid #1c466bcf; 
+}
+
+.perfil__content{
+  height: 70px;
   border-right: 1px solid #2d3436; 
-  color: white;
 }
 
 .perfil img{
@@ -113,13 +119,12 @@ body{
   position: absolute;
 }
 
-/* Sección de usuarios */
+/*----------------- Sección de usuarios */
 .search{
   position: relative;
 }
 
 .search input{
-  height: 50px; 
   border-radius: 12px;
   padding-right: 37px;
 }
@@ -131,17 +136,21 @@ body{
   top: 20px;
 }
 
-.perfiles div{
-  border-bottom: 1px solid #dfe6e9;
+.perfiles > div{
+  border-bottom: 1px solid #2f455d;
   height: 5rem;
   align-items: center;
   display: flex;
   cursor: pointer;
+  transition: background .2s;
 }
 
-.perfiles div:hover{
-  transition: .7s;
-  background: #dfe6e9;
+.perfiles > div.selected{
+  background: #0c3459;
+}
+
+.perfiles > div:hover{
+  background: #182f42;
 }
 
 .perfiles img{
@@ -166,11 +175,11 @@ body{
   margin-top:7px;
 }
 
-#online{
+.contact #online{
   width: 13px; 
   height: 13px; 
   border-radius: 13px; 
-  background-color: #64DD17; 
+  background-color: #01ddfb; 
   z-index: 2; 
   position: absolute; 
   display: flex; 
@@ -178,11 +187,11 @@ body{
   margin-top: 7px;
 }
 
-#offline{
+.contact #offline{
   width: 13px; 
   height: 13px; 
   border-radius: 13px; 
-  background-color: #9E9E9E; 
+  background-color: #c0c3c4;
   z-index: 2; 
   position: absolute; 
   display: flex; 
@@ -190,11 +199,14 @@ body{
   margin-top: 7px;
 }
 
-/*------------------------ Seccion derecha - Chat -----------------*/
-/*Header*/
+/* Seccion derecha - Chat
+---------------------------------------------------------------------------------*/
+
+/*----------------- Header*/
 .cabecera{
   height: 70px; 
-  background-color:#37474F; 
+  /* background-color:#37474F;  */
+  background: rgb(27 41 59 / 84%);
   color: white;  
   position: relative;
 }
@@ -219,11 +231,14 @@ body{
   margin: 0  15px;
 }
 
-/*Main*/
+/*----------------- Main*/
 .historial{
   flex: 1;
-  overflow-x: hidden; 
-  background: linear-gradient(#455A64, #01579B);
+  /* FIXME: Solucionar conflicto de oveerflow con wow.js (se quito la clase wow por el momento) o buscar otra alternativa*/
+  overflow-y: auto; 
+  background-color: rgb(14 45 76 / 80%);
+  z-index: 0;
+  /* background: linear-gradient(#455A64, #01579B); */
 }
 
 .historial > .content{
@@ -233,50 +248,23 @@ body{
   align-items: flex-start;
   justify-content: center;
   margin-top: auto;
-  padding: 10px 15px;
+  padding: 10px 25px;
   position: relative;
 }
 
+/* Mensajes en general */
+
 .message{
-  /* position: relative; */
-  margin: 15px 0;
   word-wrap: break-word;
   max-width: 90%;
   min-width: 100px;
-  padding: 8px 6px;
 }
 
 .message > div{
   padding: 8px 6px;
-  border: 1px solid #cccccc;
+  border-radius: 8px;
+  position: relative;
 }
-
-.message img{
-  height: max(10rem, 30vh);
-  object-fit: contain;
-}
-
-.message-out{
-  align-self: flex-end;
-  text-align: left;
-}
-
-.message-out > div{
-  border-radius: 15px 1px 15px 15px;
-  background-color: #81D4FA;
-}
-
-.message-in{
-  text-align: right;
-}
-
-.message-in > div{
-  border-radius: 1px 15px 15px 15px;
-  background-color: #4DD0E1;
-}
-
-.message-out > p{ margin-right: 20px; }
-.message-in > p{ margin-left: 20px; }
 
 .message span{
   color: #0897ae;
@@ -285,15 +273,77 @@ body{
   width: 16px;
 }
 
+.message small {
+  color: #3e687b;
+}
+
+.message img{
+  height: max(10rem, 30vh);
+  object-fit: contain;
+}
+
+.message.bubble > div::after{
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-left: 30px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 20px solid #81D4FA;
+  z-index: -1;
+}
+
+/* message out */
+
+.message-out{
+  align-self: flex-end;
+  text-align: left;
+}
+
+.message-out > div{
+  background-color: #81D4FA;
+}
+
+.message-out.bubble > div{ 
+  border-radius: 8px 1px 8px 8px; 
+}
+
+.message-out.bubble > div::after{
+  right: -13px;
+}
+
+.message-out > p{ margin-right: 20px; }
+
 .message-out > span{right: 4px; }
+
+.message-out > small{left: 4px; }
+
+/* message-in */
+
+.message-in{
+  text-align: right;
+}
+
+.message-in > div{
+  background-color: #4DD0E1;
+}
+
+.message-in.bubble > div { 
+  border-radius: 1px 8px 8px 8px; 
+}
+
+.message-in.bubble > div::after{
+  left: -13px;
+  border-top-color: #4DD0E1;
+  border-left: 15px solid transparent;
+  border-right: 30px solid transparent;
+}
+
+.message-in > p{ margin-left: 20px; }
+
 .message-in > span{ left: 4px; }
 
-.message > small {
-  color: #009791;
-  position: absolute;
-  bottom: 4px;
-}
-.message-out > small{left: 4px; }
 .message-in > small{ right: 4px; }
 
 @media (max-width: 570px){
@@ -302,7 +352,7 @@ body{
   }
 }
 
-/*-Spinner -*/
+/*-Spinner del chat -*/
 .sk-chase {
   width: 40px;
   height: 40px;
@@ -360,9 +410,10 @@ body{
   } 
 }
 
-/* Footer */
+/*----------------- Footer */
 #chat-footer{
-  background-color: #37474F;
+  /* background-color: #37474F; */
+  background: rgb(27 41 59 / 84%);
   padding: 15px 0;
   /* height: 76px; */
 }
@@ -468,7 +519,8 @@ button:focus{
   display: block;
 }
 
-/* -------------------------Tabla de usuarios - users ----------------------- */
+/* Tabla de usuarios - users
+---------------------------------------------------------------------------------*/
 
 #users-table #btnDelete{
   border: none;
@@ -481,7 +533,8 @@ span#update:hover{
   cursor: pointer;
 }
 
-/* -------------------------Registra de usuario - signup ----------------------- */
+/* Registro de usuario - signup
+---------------------------------------------------------------------------------*/
 
 .image-container{
   text-align: center;
@@ -515,8 +568,28 @@ span#update:hover{
   font-size: 20px;
 }
 
+/* Clases personalizadas
+---------------------------------------------------------------------------------*/
 
+/*----------------- Scrollbar  */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
 
+.custom-scrollbar::-webkit-scrollbar:hover{
+  width: 20px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, .2);
+  border-radius: 50px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background-image: linear-gradient(180deg, #037aa9 0%, #4b5be8 99%);
+  box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+}
 
 
 
