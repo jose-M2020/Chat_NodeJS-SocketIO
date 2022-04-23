@@ -90,8 +90,8 @@ class Socket {
 					$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
 				}
 			}else{
-				toastr.options.preventDuplicates = false;
-				toastr.info(`${data.sender} te ha enviado un nuevo mensaje.`);
+				// toastr.options.preventDuplicates = false;
+				// toastr.info(`${data.sender} te ha enviado un nuevo mensaje.`);
 				notification(data.sender);
 			}
 		});

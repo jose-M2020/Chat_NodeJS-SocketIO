@@ -17,6 +17,7 @@ global.pushSubscripton;
 app.use(bodyParser.json());
 // Settings
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../uploads')));
 
 app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
