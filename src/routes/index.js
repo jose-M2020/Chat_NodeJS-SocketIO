@@ -19,7 +19,7 @@ var upload = multer({ dest: 'uploads/' });
 var avatar;
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-	const pathImg = path.join(__dirname, '../../uploads/avata');
+	const pathImg = path.join(__dirname, '../../uploads/avatar');
 
 	if (!fs.existsSync(pathImg)){
 		fs.mkdirSync(pathImg);
