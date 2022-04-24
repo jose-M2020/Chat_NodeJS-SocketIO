@@ -1,4 +1,4 @@
-import Socket from './class/Socket.js';
+import socket from './class/Socket.js';
 import chat from './class/Chat.js';
 import UI from './class/UI.js';
 
@@ -7,7 +7,6 @@ const inputMsg = $('#mensaje');
 const chatSection = $('.historial .content');
 
 // const chat = new Chat(user, '');
-const socket = new Socket();
 const ui = new UI();
 
 let typing = false;
@@ -31,7 +30,6 @@ $(document).ready(function(){
   	
   	$("#back").click(function(){
       chat.receiver = '';
-    	socket.setReceiver('');
     	$(".inf").css("display","block");
     	$(".chat").css("display","none");
   	});
@@ -44,9 +42,9 @@ inputMsg.keyup(function(){
     clearTimeout(typingTimer);
     if (inputMsg.val() !== "") {
     	if(typing == false){
-			typing = true;
-			socket.emitTyping();
-		}
+        typing = true;
+        socket.emitTyping();
+      }
      	typingTimer = setTimeout(doneTyping, doneTypingInterval);
     }
 });
@@ -71,7 +69,6 @@ socket.onDisconnection();
 socket.onNewMsg();
 socket.onTyping();
 socket.onStopTyping();
-
 socket.onMsg();
 
 // --------------- Infinite scroll - load data ------------
@@ -111,30 +108,32 @@ $(window).resize(function(){
 
 // --------------- Evento clic en los contactos --------------
 
-$(".perfiles .contact").click(function(){
+$(".perfiles .contact").click(function(e){
     const receiverId = $(this).attr('data-userid'),
-  	         receiver = $(this).find("b").text(),
+  	         receiver = $(this).attr('data-username'),
   	         img = $("img", this).attr("src");
     page = 1;
 
-    $(this).parent().find('.contact.selected').removeClass('selected');
-    $(this).addClass('selected');
-    chatSection.empty();
+    let target = $(e.target);
+    if(!target.is('img,[data-toggle="modal"]')){
+      $(this).parent().find('.contact.selected').removeClass('selected');
+      $(this).addClass('selected');
+      chatSection.empty();
+  
+      $(".cabecera p").text(receiver);
+      $(".cabecera img").attr("src",img);      
+  
+      chat.receiver = receiver;
+      chat.receiverId = receiverId;
 
-  	$(".cabecera p").text(receiver);
-  	$(".cabecera img").attr("src",img);      
-
-    chat.receiver = receiver;
-    chat.receiverId = receiverId;
-
-  	socket.setReceiver(receiver); // Definimos el receptor
-    socket.setLastMsg(false);
-  	socket.emitGetMsg(page);
-
-    if(width < 992){
-      	$(".inf").css("display","none");
-      	$(".chat").css("display","block");
-    } 
+      socket.setLastMsg(false);
+      socket.emitGetMsg(page);
+  
+      if(width < 992){
+          $(".inf").css("display","none");
+          $(".chat").css("display","block");
+      } 
+    }
 });
 
 // --------------- Funciones para la seccion de stickers ---------------------
@@ -192,3 +191,11 @@ navigator.serviceWorker.onmessage = event => {
     }
   }
 };
+
+// --------------- Modal Boostrap ----------------
+
+$('a[data-target="#imageModal"]').click(function(){
+  const imageSrc = $(this).find('img').attr('src');
+  // alert(imageSrc)
+  $('#imageModal img').attr('src', imageSrc);
+})

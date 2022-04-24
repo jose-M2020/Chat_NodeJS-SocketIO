@@ -83,7 +83,6 @@
         })
         
         if(user){
-          alert('Service worker registered');
           // Suscribirse a push si esta logeado
           await fetch('/subscription', {
             method: 'POST',

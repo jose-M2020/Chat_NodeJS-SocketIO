@@ -51,6 +51,7 @@ const socketIO = server => {
 		});
 
 		socket.on('new_msg', async data => {
+			// TODO: Actializar a primera posicion (esquema no creado) el contacto en los datos del remitente y receptor
 			const {receiver, sender} = data;
 
 		    await connectDB.then(async db => {

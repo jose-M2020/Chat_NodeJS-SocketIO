@@ -1,6 +1,3 @@
-// TODO: Arreglar el error al importar la clase chat
-// import chat from './class/Chat.js';
-
 let cacheName = 'pwa';
 let filesToCache = [
   '/',

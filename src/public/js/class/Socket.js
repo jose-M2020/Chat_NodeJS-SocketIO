@@ -1,71 +1,70 @@
 import chat from './Chat.js';
 import UI from './UI.js';
 
-const socket = io(),
-		  ui = new UI(),
-		//   chat = new Chat(),
-		 user = $('.perfil .perfil__username').text();
-
+const socketIO = io(),
+		  ui = new UI();
 let previousHeight
 
-let idSocket;
-socket.on('connect', () => {
-	idSocket = socket.id;
-	socket.emit('newConnection', {user: user});
-	chat.setUser(user);
-})
+class Socket{
+	static instance;
 
-class Socket {
 	constructor(){
-		this.receiver = "";
-		this.lastMsg = false;	// Para verificar si es el último mensaje
-	}
+		if(!!Socket.instance){
+			return Socket.instance;
+		}
+		
+		this.isLastMessage = false;
+		
+		socketIO.on('connect', () => {
+			const idSocket = socketIO.id,
+					 user = $('.perfil .perfil__username').text();
+					 
+			chat.sender = user;
+			socketIO.emit('newConnection', {user});
+		})
 
-	setReceiver(receiver) {
-		this.receiver = receiver;
+		Socket.instance = this;
 	}
 
 	setLastMsg(state){
-		this.lastMsg = state
+		this.isLastMessage = state
 	}
 
-	getReceiver(){
-		return this.receiver;
-	}
-
-	emitNewConnection(user) {
-		socket.emit('newConnection', {user: user});
-		chat.setUser(user);
-	}
+	// emitNewConnection(user) {
+	// 	socketIO.emit('newConnection', {user: chat.sender});
+	// 	chat.sender = user;
+	// }
 
 	onNewConnection() {
-		socket.on('newConnection', user => {
-			$(`#${user.user} .status`).attr('id', 'online');
+		socketIO.on('newConnection', ({user}) => {
+			$(`#${user} .status`).attr('id', 'online');
 		});
 	}
 
 	onDisconnection() {
-		socket.on('userDisconnected', data => {
-			$(`#${data.user} .status`).attr('id', 'offline');
+		socketIO.on('userDisconnected', ({user}) => {
+			$(`#${user} .status`).attr('id', 'offline');
 		});
 	}
 
 	emitNewMsg({message, urlImg}) {
-		if(this.receiver !== ""){
-			const data ={
+		if(chat.receiver !== ""){
+			const data = {
 				message,
 				urlImg,
-				sender: user,
-				receiver: this.receiver,
+				sender: chat.sender,
+				receiver: chat.receiver,
 				date: new Date
 			}
 
-			socket.emit('new_msg', data);
+			$(`.perfiles [data-username="${chat.receiver}"]`).prependTo('.perfiles');
+
+			socketIO.emit('new_msg', data);
 			// TODO hacer cambios
 
 			console.log(chat.messages);
 
-			ui.addChatBubble( data, user, 'bottom');
+			ui.addChatBubble( data, chat.sender, 'bottom');
 			$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
 		}else{
 			toastr.warning('Selecciona un usuario.', '¿Con quién quieres chatear?');
@@ -73,48 +72,44 @@ class Socket {
 	}
 
 	onNewMsg() {
-		socket.on('new_msg', data => {
-			const firstContact = $('.perfiles').children(":first");
-			const node  = $(`#${data.sender}`);
+		socketIO.on('new_msg', data => {
+			const {sender, receiver} = data;
 
 			// Colocar el contacto en la parte superior
-			if(firstContact[0] != node[0]) {
-				node.insertBefore(firstContact);
-			}
+			$(`.perfiles [data-username="${sender}"]`).prependTo('.perfiles');
 
 			// Esta condicion es para el receptor. Si el receptor establecion chat con el emisor del mensaje, muestra el mensaje, sino, muestra una notificacion en la seccion del emisor.
-			if( data.sender === this.receiver || data.sender === user){
+			if( sender === chat.receiver || sender === chat.sender){
 				// Esta condicion es para el front-end del emisor, cuando el emisor tiene dos o más pestañas abiertas, y en una de ellas envia un mensaje, en las otras pestañas no se vera reflejado, si no a seleecionado al receptor del mensaje
-				if(this.receiver === data.receiver || this.receiver === data.sender) {
-					ui.addChatBubble(data, user,'bottom');
+				if(chat.receiver === receiver || chat.receiver === sender) {
+					ui.addChatBubble(data, chat.sender,'bottom');
 					$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
 				}
 			}else{
 				// toastr.options.preventDuplicates = false;
-				// toastr.info(`${data.sender} te ha enviado un nuevo mensaje.`);
-				notification(data.sender);
+				// toastr.info(`${sender} te ha enviado un nuevo mensaje.`);
+				notification(sender);
 			}
 		});
 	}
 
 	emitGetMsg(page) {
-		// Comprobamos que haya más mensajes por mostrar
-		if(!this.lastMsg){
+		if(!this.isLastMessage){
 			previousHeight = $('.historial .content').height();
 	   		$('.spinner').css('display', 'block');
 
 			// Realizamos una peticion al servidor para obtener mensajes
-	      	socket.emit('getMsg', {
-	       		sender: user, //el nombre del sender(user) es obtenido a travez del prompt ubicado en chat.js
-	        	receiver: this.receiver,
+	      	socketIO.emit('getMsg', {
+	       		sender: chat.sender,
+	        	receiver: chat.receiver,
 	        	page: page
 	      	});
 	    }
 	}
 
 	onMsg() {
-		socket.on('privateMessages', async ({conversation, finish}) => {
-			this.lastMsg = finish;
+		socketIO.on('privateMessages', async ({conversation, finish}) => {
+			this.isLastMessage = finish;
 			
 			await chat.setMessages(conversation);
 			$('.historial').scrollTop($('.historial .content').height() - previousHeight);
@@ -123,33 +118,33 @@ class Socket {
 	}
 
 	emitTyping() {
-		socket.emit('typing', {
-			sender: user,
-			receiver: this.receiver
+		socketIO.emit('typing', {
+			sender: chat.sender,
+			receiver: chat.receiver
 		})
 	}
 
 	onTyping() {
-		socket.on('typing', sender => {
-			if(sender == this.receiver){
-				$('.state').append(`<small id="typing" style="color: lightgreen">Escribiendo...</small>`);		
+		socketIO.on('typing', sender => {
+			if(sender == chat.receiver){
+				$('.state').append(`<small id="typing" style="color: #86e6f1">Escribiendo...</small>`);		
 			}else{
 				// let lastMsg = $(`.perfiles #${sender} p`).text();
-				$(`.perfiles #${sender} p`).replaceWith('<p id="typing" style="color: #2C9F37">Escribiendo...</p>');
+				$(`.perfiles #${sender} p`).replaceWith('<p id="typing" style="color: #86e6f1">Escribiendo...</p>');
 			}
 		});
 	}
 
 	emitStopTyping() {
-		socket.emit('stopTyping', {
-			sender: user,
-			receiver: this.receiver
+		socketIO.emit('stopTyping', {
+			sender: chat.sender,
+			receiver: chat.receiver
 		});
 	}
 
 	onStopTyping() {
-		socket.on('stopTyping', sender => {
-			if(sender == this.receiver){
+		socketIO.on('stopTyping', sender => {
+			if(sender == chat.receiver){
 				$('.state #typing').remove();
 			}else{
 				$(`.perfiles #${sender} p`).replaceWith(`<p>Test message</p>`);
@@ -163,4 +158,5 @@ function notification(user){
 	append('<div style="background: lightblue; width: 20px; height: 20px; border-radius: 50%; position: absolute; right: 13px; top: 32px; padding-left: 6px;">1</div>');
 }
 
-export default Socket;
+const socket = new Socket(); 
+export default socket;

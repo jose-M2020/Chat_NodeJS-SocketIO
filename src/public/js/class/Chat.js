@@ -1,11 +1,7 @@
 import UI from './UI.js';
 
-const socket = io(),
-		 ui = new UI(),
-		 sendBtn = $('#send'),
-		 input_msg = $('#mensaje'),
-		 chatSection = $('.historial .content'),
-		 user = $('.perfil .perfil__username').text();
+const ui = new UI(),
+		 chatSection = $('.historial .content');
 
 class Chat {
 	sender = '';
@@ -17,10 +13,7 @@ class Chat {
 
 	static instance;
 		
-	constructor(sender, receiver) {
-		this.sender = sender;
-		this.receiver = receiver;
-
+	constructor() {
 		if(!!Chat.instance){
 			return Chat.instance;
 		}
@@ -29,6 +22,14 @@ class Chat {
 
 	setUser(user){
 		this.sender = user;
+	}
+
+	set sender(sender){
+		this.sender = sender;
+	}
+
+	get sender(){
+		return this.sender;
 	}
 
 	set receiver(receiver){
@@ -44,7 +45,7 @@ class Chat {
 			this.messages[this.receiverId] = messages;
 		}else{
 			const msgs = this.messages[this.receiverId];
-			const msgExist = msgs.find(msg => msg?._id == messages[0]?._id);
+			const msgExist = msgs ? msgs.find(msg => msg?._id == messages[0]?._id) : [];
 			
 			if(msgExist){
 				console.log('existe');
@@ -97,5 +98,5 @@ class Chat {
 	}
 }
 
-const chat = new Chat(user, ''); 
+const chat = new Chat(); 
 export default chat;

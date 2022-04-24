@@ -94,7 +94,7 @@ class DB {
 	}
 
 	async getMessages({sender, receiver, page}){
-		const perPage = 10;
+		const perPage = 30;
 
 		// Buscar mensajes por orden de fecha descendente
 		const res = await Message.aggregate([

@@ -1,3 +1,8 @@
+https://bytescout.com/blog/setup-and-use-git-repositories-for-one-project.html
+
+Push a github: git push origin main
+Push a heroku: git push heroku main 
+
 Errores:
 
     - boton de regresar: no alterar el css 

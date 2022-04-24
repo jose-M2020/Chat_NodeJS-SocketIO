@@ -159,9 +159,8 @@ router.get('/sw.js', async (req, res) => {
 // ------------------------------ Web Push
 
 router.post("/subscription", async (req, res) => {
-	// FIXME: Buscar suscripcion mediante el endpoint y usuario, ya que el endpoint esta asociado a un navegador, y en el mismo, puede logearse con diferentes cuentas
 	const { user, subscription: { endpoint, expirationTime, keys: { p256dh, auth}} } = req.body,
-			 find = await NotificationSubscription.findOne({endpoint});
+			 find = await NotificationSubscription.findOne({endpoint, user});
 	// global.pushSubscripton = req.body;
 	// console.log('push: ', req.body);
 	

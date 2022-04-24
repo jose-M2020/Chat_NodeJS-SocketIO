@@ -82,7 +82,7 @@ body{
 ---------------------------------------------------------------------------------*/
 
 .inf{
-  background-color: rgb(9 25 40 / 98%);
+  background-color: #0e1f2df7;
   color: #f2f7f8;
   display: flex; 
   flex-direction: column; 

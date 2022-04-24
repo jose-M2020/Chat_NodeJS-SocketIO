@@ -34,13 +34,16 @@
       </div>
       <div class="row perfiles custom-scrollbar" id="perfiles" style="overflow-x: hidden;/*max-height: 90vh;*/s">
         {{#each dataUsers}}
-          <div class="col-12 contact wow animate__animated animate__fadeIn" data-userId="{{_id}}" id="{{username}}">
+          <div class="col-12 contact wow animate__animated animate__fadeIn" data-userId="{{_id}}" data-username="{{username}}"  id="{{username}}">
             {{#if connected}}
               <div class="status" id="online"></div>
             {{else}}
               <div class="status" id="offline"></div>
             {{/if}}
-            <img src="avatar/{{avatar}}" alt="Profile picture">
+            <!-- Button trigger modal -->
+            <a type="button" class="" data-toggle="modal" data-target="#imageModal">
+              <img src="avatar/{{avatar}}" alt="Profile picture">
+            </a>
             <div class="" style="width: 65%; padding-top: 12px; display: inline-block">
               <b class="username">{{username}}</b>
               <p style="margin-top: 0;">😅😅😅</p>
@@ -128,6 +131,22 @@
       </div>
     </div>
     <!-- fin seccion derecha-> chat -->
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-transparent border-0">
+      <div class="modal-header px-0 py-2" style="border: none;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="text-white" style="font-size: 35px;">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body p-0">
+        <img src="" class="w-100" alt="User avatar">
+      </div>
+    </div>
   </div>
 </div>
 
