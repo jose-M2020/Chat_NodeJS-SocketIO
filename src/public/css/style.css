@@ -258,6 +258,7 @@ body{
   word-wrap: break-word;
   max-width: 90%;
   min-width: 100px;
+  margin-top: .25rem;
 }
 
 .message > div{
@@ -280,6 +281,10 @@ body{
 .message img{
   height: max(10rem, 30vh);
   object-fit: contain;
+}
+
+.message.bubble{
+  margin-top: 1rem;
 }
 
 .message.bubble > div::after{

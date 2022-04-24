@@ -10,7 +10,7 @@ class UI {
 		if(sender == user){
 			if(urlImg?.length){
 				msgHTML = `
-					<div class="message message-out bubble mt-3 animate__animated animate__fadeInDown">
+					<div class="message message-out bubble mt-3 animate__animated animate__fadeInDown" data-sender="${sender}">
 						<img class="w-100" src="${urlImg}">
 						<div>
 							<div class="d-flex align-items-center justify-content-between">
@@ -24,7 +24,7 @@ class UI {
 				`;
 			}else{
 				msgHTML = `
-					<div class="message message-out animate__animated animate__fadeInDown ${initBlock ? 'mt-1' : 'bubble mt-3'}">
+					<div class="message message-out animate__animated animate__fadeInDown ${!initBlock ? 'bubble' : ''}" data-sender="${sender}">
 						<div>
 							<p class="mb-0">${message}</p>
 							<div class="d-flex align-items-center justify-content-between">
@@ -40,7 +40,7 @@ class UI {
 		}else{
 			if(urlImg?.length){
 				msgHTML = `
-					<div class="message message-in bubble mt-3 animate__animated animate__fadeInDown">
+					<div class="message message-in bubble mt-3 animate__animated animate__fadeInDown" data-sender="${sender}">
 						<img class="w-100" src="${urlImg}">
 						<div>
 							<small>${moment(date).format('LT')}</small>
@@ -49,7 +49,7 @@ class UI {
 				`;
 			}else{
 				msgHTML = `
-					<div class="message message-in animate__animated animate__fadeInDown ${initBlock ? 'mt-1' : 'bubble mt-3'}">
+					<div class="message message-in animate__animated animate__fadeInDown ${!initBlock ? 'bubble' : ''}" data-sender="${sender}">
 						<div>
 							<p class="mb-0">${message}</p>
 							<small>${moment(date).format('LT')}</small>

@@ -110,29 +110,34 @@ $(window).resize(function(){
 
 $(".perfiles .contact").click(function(e){
     const receiverId = $(this).attr('data-userid'),
-  	         receiver = $(this).attr('data-username'),
-  	         img = $("img", this).attr("src");
+            receiver = $(this).attr('data-username'),
+            img = $("img", this).attr("src");
     page = 1;
 
-    let target = $(e.target);
-    if(!target.is('img,[data-toggle="modal"]')){
-      $(this).parent().find('.contact.selected').removeClass('selected');
-      $(this).addClass('selected');
-      chatSection.empty();
-  
-      $(".cabecera p").text(receiver);
-      $(".cabecera img").attr("src",img);      
-  
-      chat.receiver = receiver;
-      chat.receiverId = receiverId;
+    if(receiver !== chat.receiver) chat.messages = [];
 
-      socket.setLastMsg(false);
-      socket.emitGetMsg(page);
-  
-      if(width < 992){
-          $(".inf").css("display","none");
-          $(".chat").css("display","block");
-      } 
+    if(!chat.messages.length){
+
+        let target = $(e.target);
+        if(!target.is('img,[data-toggle="modal"]')){
+          $(this).parent().find('.contact.selected').removeClass('selected');
+          $(this).addClass('selected');
+          chatSection.empty();
+      
+          $(".cabecera p").text(receiver);
+          $(".cabecera img").attr("src",img);      
+      
+          chat.receiver = receiver;
+          chat.receiverId = receiverId;
+
+          socket.setLastMsg(false);
+          socket.emitGetMsg(page);
+      
+          if(width < 992){
+              $(".inf").css("display","none");
+              $(".chat").css("display","block");
+          } 
+        }
     }
 });
 

@@ -18,7 +18,7 @@ class Socket{
 		socketIO.on('connect', () => {
 			const idSocket = socketIO.id,
 					 user = $('.perfil .perfil__username').text();
-					 
+
 			chat.sender = user;
 			socketIO.emit('newConnection', {user});
 		})
@@ -60,11 +60,10 @@ class Socket{
 			$(`.perfiles [data-username="${chat.receiver}"]`).prependTo('.perfiles');
 
 			socketIO.emit('new_msg', data);
-			// TODO hacer cambios
+			// TODO Poner el mensaje nuevo como burbuja si el mensaje anterior es diferente al receptor o emisor
+			chat.setMessages([data], 'bottom');
 
-			console.log(chat.messages);
-
-			ui.addChatBubble( data, chat.sender, 'bottom');
+			// ui.addChatBubble( data, chat.sender, 'bottom');
 			$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
 		}else{
 			toastr.warning('Selecciona un usuario.', '¿Con quién quieres chatear?');
@@ -82,7 +81,8 @@ class Socket{
 			if( sender === chat.receiver || sender === chat.sender){
 				// Esta condicion es para el front-end del emisor, cuando el emisor tiene dos o más pestañas abiertas, y en una de ellas envia un mensaje, en las otras pestañas no se vera reflejado, si no a seleecionado al receptor del mensaje
 				if(chat.receiver === receiver || chat.receiver === sender) {
-					ui.addChatBubble(data, chat.sender,'bottom');
+					chat.setMessages([data], 'bottom')
+					// ui.addChatBubble(data, chat.sender,'bottom');
 					$('.historial').animate({scrollTop: $(".historial").prop("scrollHeight")},200);
 				}
 			}else{
