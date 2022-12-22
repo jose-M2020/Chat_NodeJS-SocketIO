@@ -5,6 +5,8 @@ const mongoDB = new DB();
 const NotificationSubscription = require('../mongoDB/models/notificationSubscription');
 const webpush = require("../webpush");
 
+const msgController = require('../controllers/MessagesController');
+
 const socketIO = server => {
 	const io = socket(server);
 	io.on('connect', async (socket) => {
@@ -54,23 +56,7 @@ const socketIO = server => {
 			// TODO: Actializar a primera posicion (esquema no creado) el contacto en los datos del remitente y receptor
 			const {receiver, sender} = data;
 
-		    await connectDB.then(async db => {
-		    	let conversationExists = await mongoDB.searchConversation(data);
-		    	if(!conversationExists){
-		        	mongoDB.saveMessage(data);
-		        }else{
-		        	mongoDB.updateMessages(data);
-		        }
-				
-				const pushSubscripton = await NotificationSubscription.findOne({user: receiver}).lean();
-				if(pushSubscripton){
-					try {
-						await webpush.sendNotification(pushSubscripton, JSON.stringify(data));
-					} catch (error) {
-						console.log(error);
-					}
-				}
-		    }).catch( err => console.log(err) );
+		    await msgController.addItem(data);
 
 		    socket.to(receiver).to(sender).emit('new_msg', (data));
 		});

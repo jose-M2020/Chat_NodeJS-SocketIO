@@ -6,7 +6,11 @@ const userSchema = new Schema({
     username: { type: String },
     email: { type: String },
     password: { type: String },
-    avatar: { type: String },
+    avatar: {
+      name: {type: String, required: true},
+      secure_url: {type: String, required: true},
+      public_id: {type: String, required: true},
+    },
     role: {type: String},
     connected: {type: Boolean, default: false},
     conversations: [String],
